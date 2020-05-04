@@ -1,0 +1,18 @@
+note over browser:
+user clicks "submit" button
+end note
+
+note over browser:
+local copy of notes array is updated 
+with new note and notes list on the
+page is redrawn (based on the array)
+end note
+
+browser->server: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+
+note over server:
+server updates array of notes,
+adding new note
+end note
+
+server-->browser: 201 Created: { "messsage": "note created" }

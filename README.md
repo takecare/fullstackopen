@@ -1,4 +1,17 @@
+## Fullstack MOOC
+
+### Parts
+
+- [Part 0](https://fullstackopen.com/en/part0/fundamentals_of_web_apps)
+- []()
+
 ### Submission process
+
+See [FAQ](https://fullstackopen.com/en/part0/general_info#submitting-exercises) for detailed information.
+
+You can access the submission portal [here](https://studies.cs.helsinki.fi/stats/courses/fullstackopen/submissions).
+
+#### Repo structure
 
 From [part 0](https://fullstackopen.com/en/part0/fundamentals_of_web_apps#running-application-logic-on-the-browser>):
 
@@ -22,7 +35,3 @@ So, each part has its own directory, which contains a directory for each exercis
 
 The exercises are submitted one part at a time. When you have submitted the exercises for a part, you can no longer submit any missed exercises for that part.
 ```
-
-Parts:
-
-- [Part 0](https://fullstackopen.com/en/part0/fundamentals_of_web_apps#running-application-logic-on-the-browser)
