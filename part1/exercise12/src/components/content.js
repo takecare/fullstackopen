@@ -1,11 +1,9 @@
 import React from "react";
+import Part from "./Part";
 
-const Content = (props) => {
-  return (
-    <p>
-      {props.title}: {props.total}
-    </p>
-  );
-};
+const Content = (props) =>
+  props.parts.map((part) => (
+    <Part key={part.title} title={part.title} total={part.total} />
+  ));
 
 export default Content;
