@@ -19,24 +19,21 @@ const Statistics = ({ good, neutral, bad }) => {
   const percentage = (good / total) * 100;
 
   return (
-    <table>
-      <tbody>
-        <Entry title="good" count={good} />
-        <Entry title="neutral" count={neutral} />
-        <Entry title="bad" count={bad} />
-        <Entry title="all" count={total} />
-        <Entry title="average" count={average} />
-        <Entry title="positive" count={percentage + " %"} />
-      </tbody>
-    </table>
+    <>
+      <Entry title="good" count={good} />
+      <Entry title="neutral" count={neutral} />
+      <Entry title="bad" count={bad} />
+      <Entry title="all" count={total} />
+      <Entry title="average" count={average} />
+      <Entry title="positive" count={percentage + " %"} />
+    </>
   );
 };
 
 const Entry = ({ title, count }) => (
-  <tr>
-    <td>{title}:</td>
-    <td>{count}</td>
-  </tr>
+  <p>
+    {title}: {count}
+  </p>
 );
 
 const App = () => {

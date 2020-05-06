@@ -8,10 +8,35 @@ const Button = ({ text, handler }) => {
   return <button onClick={handler}>{text}</button>;
 };
 
+const Statistics = ({ good, neutral, bad }) => {
+  const total = good + neutral + bad;
+
+  if (total === 0) {
+    return <p>No feedback given</p>;
+  }
+
+  const average = (good - bad) / total;
+  const percentage = (good / total) * 100;
+
+  return (
+    <table>
+      <tbody>
+        <Entry title="good" count={good} />
+        <Entry title="neutral" count={neutral} />
+        <Entry title="bad" count={bad} />
+        <Entry title="all" count={total} />
+        <Entry title="average" count={average} />
+        <Entry title="positive" count={percentage + " %"} />
+      </tbody>
+    </table>
+  );
+};
+
 const Entry = ({ title, count }) => (
-  <p>
-    {title}: {count}
-  </p>
+  <tr>
+    <td>{title}:</td>
+    <td>{count}</td>
+  </tr>
 );
 
 const App = () => {
@@ -26,9 +51,7 @@ const App = () => {
       <Button text="neutral" handler={() => setNeutral(neutral + 1)} />
       <Button text="bad" handler={() => setBad(bad + 1)} />
       <Header title="statistics" />
-      <Entry title="good" count={good} />
-      <Entry title="neutral" count={neutral} />
-      <Entry title="bad" count={bad} />
+      <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   );
 };
