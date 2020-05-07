@@ -2,18 +2,46 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 
+const findMax = (array) => {
+  let max = Number.MIN_VALUE;
+  let index = 0;
+  for (let i = 0; i < array.length; i++) {
+    if (array[i] > max) {
+      max = array[i];
+      index = i;
+    }
+  }
+  return index;
+};
+
+const Anecdote = ({ title, anecdote, votes }) => {
+  return (
+    <>
+      <h1>{title}</h1>
+      <p>{anecdote}</p>
+      <p>has {votes} votes</p>
+    </>
+  );
+};
+
+const MostVoted = ({ anecdotes, votes }) => {
+  const max = findMax(votes);
+  return (
+    <Anecdote title="most voted" anecdote={anecdotes[max]} votes={votes[max]} />
+  );
+};
+
 const App = (props) => {
   const [selected, setSelected] = useState(0);
-  const [votes, updateVotes] = useState(
-    props.anecdotes.map((anecdote) => {
-      anecdote: anecdote;
-      score: 0;
-    })
-  );
+  const [votes, updateVotes] = useState(props.anecdotes.map((_) => 0));
 
   const randomInt = (max) => Math.floor(Math.random() * Math.floor(max));
 
-  const vote = () => {};
+  const vote = () => {
+    const newVotes = votes.slice();
+    newVotes[selected] = newVotes[selected] + 1;
+    updateVotes(newVotes);
+  };
 
   const nextAnecdote = () => {
     let newSelected;
@@ -25,9 +53,15 @@ const App = (props) => {
 
   return (
     <div>
-      <p>{props.anecdotes[selected]}</p>
+      <Anecdote
+        title="anecdote of the day"
+        anecdote={props.anecdotes[selected]}
+        votes={votes[selected]}
+      />
       <button onClick={vote}>vote</button>
       <button onClick={nextAnecdote}>next anecdote</button>
+
+      <MostVoted anecdotes={props.anecdotes} votes={votes} />
     </div>
   );
 };
