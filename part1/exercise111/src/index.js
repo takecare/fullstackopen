@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 
-import Header from "./components/Header";
+const Header = ({ title }) => <h1>{title}</h1>;
 
 const Button = ({ text, handler }) => {
   return <button onClick={handler}>{text}</button>;
