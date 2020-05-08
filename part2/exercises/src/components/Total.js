@@ -5,7 +5,11 @@ const Total = (props) => {
     (acc, part) => acc + (part.exercises || 0),
     0
   );
-  return <p>Number of exercises: {total}</p>;
+  return (
+    <p>
+      <b>Number of exercises: {total}</b>
+    </p>
+  );
 };
 
 export default Total;
