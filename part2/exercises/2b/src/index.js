@@ -4,10 +4,14 @@ import "./index.css";
 
 // https://reactjs.org/docs/forms.html#controlled-components
 
-const Numbers = ({ persons }) => {
+const Numbers = ({ persons, filter }) => {
+  const list = persons.filter((person) => {
+    return person.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase());
+  });
+
   return (
     <ul>
-      {persons.map((person) => (
+      {list.map((person) => (
         <li key={person.name}>
           {person.name}, {person.number}
         </li>
@@ -22,6 +26,7 @@ const App = () => {
   ]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
+  const [newFilter, setNewFilter] = useState("");
 
   const handleNameInputChange = (event) => {
     setNewName(event.target.value);
@@ -29,6 +34,10 @@ const App = () => {
 
   const handleNumberInputChange = (event) => {
     setNewNumber(event.target.value);
+  };
+
+  const handleFilterInputChange = (event) => {
+    setNewFilter(event.target.value);
   };
 
   const addPerson = (event) => {
@@ -46,6 +55,12 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <div>
+        filter: <input value={newFilter} onChange={handleFilterInputChange} />
+      </div>
+
+      <h2>add new</h2>
       <form onSubmit={addPerson}>
         <div>
           name: <input value={newName} onChange={handleNameInputChange} />
@@ -58,7 +73,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      <Numbers persons={persons} />
+      <Numbers persons={persons} filter={newFilter} />
     </div>
   );
 };
