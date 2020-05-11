@@ -51,7 +51,7 @@ const Countries = ({ countries }) => {
   return component;
 };
 
-const SearchResults = ({ results }) => {
+const CountrySearchResults = ({ results }) => {
   let component;
 
   if (results.error) {
@@ -71,7 +71,7 @@ const CountrySearch = () => {
     if (!query) {
       setResults({ countries: [], error: null });
     } else {
-      axios
+      const x = axios
         .get(`https://restcountries.eu/rest/v2/name/${query}`)
         .then((response) =>
           setResults({ countries: response.data, error: null })
@@ -100,7 +100,7 @@ const CountrySearch = () => {
           />
         </div>
       </form>
-      <SearchResults results={results} />
+      <CountrySearchResults results={results} />
     </>
   );
 };
