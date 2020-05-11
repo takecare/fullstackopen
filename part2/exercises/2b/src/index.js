@@ -1,24 +1,11 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
+import FilterInput from "./components/FilterInput";
+import NewNumberForm from "./components/NewNumberForm";
+import Numbers from "./components/Numbers";
 
 // https://reactjs.org/docs/forms.html#controlled-components
-
-const Numbers = ({ persons, filter }) => {
-  const list = persons.filter((person) => {
-    return person.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase());
-  });
-
-  return (
-    <ul>
-      {list.map((person) => (
-        <li key={person.name}>
-          {person.name}, {person.number}
-        </li>
-      ))}
-    </ul>
-  );
-};
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -55,24 +42,14 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-
-      <div>
-        filter: <input value={newFilter} onChange={handleFilterInputChange} />
-      </div>
-
-      <h2>add new</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input value={newName} onChange={handleNameInputChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberInputChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
+      <FilterInput filter={newFilter} handleChange={handleFilterInputChange} />
+      <NewNumberForm
+        name={newName}
+        number={newNumber}
+        handleNameChange={handleNameInputChange}
+        handleNumberChange={handleNumberInputChange}
+        addPerson={addPerson}
+      />
       <Numbers persons={persons} filter={newFilter} />
     </div>
   );
