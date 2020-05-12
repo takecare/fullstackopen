@@ -7,8 +7,7 @@ const Numbers = ({ persons, filter, onDelete }) => {
   });
 
   return (
-    <>
-      <h2>Numbers</h2>
+    <div className="numbers">
       <ul>
         {list.map((person) => (
           <li key={person.name}>
@@ -17,7 +16,7 @@ const Numbers = ({ persons, filter, onDelete }) => {
           </li>
         ))}
       </ul>
-    </>
+    </div>
   );
 };
 

@@ -1,0 +1,21 @@
+.numberform {
+  line-height: 1.2em;
+}
+
+.numberform label {
+  margin-right: 0.3em;
+}
+
+.numberform input {
+  margin-bottom: 0.2em;
+}
+
+.numberform .leading {
+  margin-right: 2em;
+}
+
+.numberform button {
+  line-height: inherit;
+  border: 1px solid gray;
+  margin: 0 0.2em 0 1em;
+}
