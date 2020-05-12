@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import noteService from "./services/notes";
+import Notification from "./components/Notification";
 import Note from "./components/Note";
 
 const App = (props) => {
   const [notes, setNotes] = useState([]);
   const [input, setInput] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const hook = () => {
     noteService
@@ -22,13 +24,13 @@ const App = (props) => {
       important: Math.random() < 0.5,
     };
 
-    notes
+    noteService
       .create(noteObject)
       .then((note) => {
         setNotes(notes.concat(note));
         setInput("");
       })
-      .catch((error) => console.error(error));
+      .catch((error) => setErrorMessage("Failed do add note."));
   };
 
   const handleNoteChange = (event) => {
@@ -62,7 +64,8 @@ const App = (props) => {
   return (
     <div>
       <h1>Notes</h1>
-      <ul>
+      <Notification message={errorMessage} />
+      <ul className="notes">
         {notes.map((note) => (
           <Note
             key={note.id}
