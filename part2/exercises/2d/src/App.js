@@ -43,6 +43,18 @@ const App = () => {
     }
   };
 
+  const handleDelete = (id) => {
+    const shouldDelete = window.confirm(
+      `Delete ${persons.find((person) => person.id === id).name}?`
+    );
+    if (shouldDelete) {
+      numbers
+        .remove(id)
+        .then(() => setPersons(persons.filter((person) => person.id !== id)))
+        .catch((error) => console.error(error));
+    }
+  };
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -54,7 +66,7 @@ const App = () => {
         handleNumberChange={handleNumberInputChange}
         addNumber={addNumber}
       />
-      <Numbers persons={persons} filter={newFilter} />
+      <Numbers persons={persons} filter={newFilter} onDelete={handleDelete} />
     </div>
   );
 };
