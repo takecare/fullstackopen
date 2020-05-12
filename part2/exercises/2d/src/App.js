@@ -27,9 +27,29 @@ const App = () => {
     setNewFilter(event.target.value);
   };
 
+  const replace = (person) => {
+    numbers
+      .update({ ...person, number: newNumber })
+      .then((data) => {
+        setPersons(
+          persons.map((item) => (item.id === person.id ? data : item))
+        );
+        setNewName("");
+        setNewNumber("");
+      })
+      .catch((error) => console.error(error));
+  };
+
   const addNumber = () => {
-    if (persons.find((person) => person.name === newName)) {
-      alert(`${newName} is already on the phonebook.`);
+    const person = persons.find((person) => person.name === newName);
+
+    if (person) {
+      const shouldRepalce = window.confirm(
+        `${newName} is already on the phonebook. Replace with a new one?`
+      );
+      if (shouldRepalce) {
+        replace(person);
+      }
     } else {
       const number = { name: newName, number: newNumber };
       numbers

@@ -21,7 +21,7 @@ const create = (number) =>
 const update = (number) =>
   new Promise((resolve, reject) => {
     axios
-      .put(baseUrl, number)
+      .put(`${baseUrl}/${number.id}`, number)
       .then((response) => resolve(response.data))
       .catch((error) => reject(error));
   });
