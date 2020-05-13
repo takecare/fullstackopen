@@ -12,6 +12,12 @@ const logger = (req, res, next) => {
 };
 app.use(logger);
 
+// https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  next();
+});
+
 let notes = [
   {
     id: 1,
@@ -90,7 +96,7 @@ app.post("/api/notes", (req, res) => {
   res.status(201).send(newNote);
 });
 
-const port = 3001;
+const port = process.env.PORT || 3001;
 app.listen(port, () => {
   findMaxId();
   console.log(`Server running on port ${port}`);
