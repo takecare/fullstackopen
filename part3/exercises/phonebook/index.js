@@ -53,7 +53,7 @@ app.get("/api/persons/:id", (req, res) => {
   if (person) {
     res.json(person);
   } else {
-    res.status(404).send("Not found.");
+    res.status(404).send(`Entry with id "${id}" not found.`);
   }
 });
 
