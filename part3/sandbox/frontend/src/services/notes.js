@@ -1,8 +1,7 @@
 import axios from "axios";
-const baseUrl = "http://localhost:3001/api/notes";
+const baseUrl = `${process.env.REACT_APP_API_BASE_URL}/api/notes`;
 
 const read = (id) => {
-  // const config = { Origin: "localhost:1234" };
   const original = axios.get(`${baseUrl}/${id ? id : ""}`);
   return new Promise((resolve, reject) =>
     original.then((response) => resolve(response.data)).catch(reject)

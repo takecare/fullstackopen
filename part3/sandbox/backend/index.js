@@ -14,7 +14,8 @@ app.use(logger);
 
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*"); // http://localhost:3000
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
   next();
 });
 
@@ -39,6 +40,8 @@ let notes = [
   },
 ];
 
+app.use(express.static("build"));
+
 let maxId = 0;
 const findMaxId = () =>
   notes.forEach((note) => {
@@ -46,10 +49,6 @@ const findMaxId = () =>
       maxId = note.id;
     }
   });
-
-app.get("/", (req, res) => {
-  res.send("Hi!");
-});
 
 app.get("/api/notes", (req, res) => {
   res.json(notes);
