@@ -83,6 +83,10 @@ app.post("/api/persons", (req, res) => {
   res.status(201).send(newPerson);
 });
 
+app.get("/info", (req, res) => {
+  res.send(`Phonebook has ${persons.length} people, as of ${new Date()}`);
+});
+
 const port = 3001;
 app.listen(port, () => {
   updateMaxId();
