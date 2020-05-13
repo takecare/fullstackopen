@@ -8,6 +8,7 @@ const logger = (req, res, next) => {
   console.log(`> ${req.method} ${req.baseUrl} ${req.path}`);
   console.log(`> params: ${util.inspect(req.params)}`);
   console.log(`> headers: ${util.inspect(req.headers)}`);
+  console.log(`> body: ${util.inspect(req.body)}`);
   next();
 };
 app.use(logger);
@@ -74,7 +75,15 @@ app.post("/api/persons", (req, res) => {
     return;
   }
 
-  const newPerson = { id: `${Math.random()}`.slice(2), ...person };
+  const foundPerson = persons.find((p) => p.name === person.name);
+  if (foundPerson) {
+    res
+      .status(400)
+      .send(`"name" must be unique. "${person.name}" already exists.`);
+    return;
+  }
+
+  const newPerson = { id: parseInt(`${Math.random()}`.slice(2)), ...person };
   persons = persons.concat(newPerson);
   res.status(201).send(newPerson);
 });
