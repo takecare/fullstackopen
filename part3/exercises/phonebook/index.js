@@ -35,10 +35,6 @@ let persons = [
   },
 ];
 
-let maxId = 0;
-const updateMaxId = () =>
-  persons.forEach((person) => (person.id > maxId ? (maxId = person.id) : null));
-
 app.get("/", (req, res) => {
   res.send("Hi!");
 });
@@ -78,7 +74,7 @@ app.post("/api/persons", (req, res) => {
     return;
   }
 
-  const newPerson = { id: ++maxId, ...person };
+  const newPerson = { id: `${Math.random()}`.slice(2), ...person };
   persons = persons.concat(newPerson);
   res.status(201).send(newPerson);
 });
@@ -88,7 +84,4 @@ app.get("/info", (req, res) => {
 });
 
 const port = 3001;
-app.listen(port, () => {
-  updateMaxId();
-  console.log(`Server running on port ${port}`);
-});
+app.listen(port, () => console.log(`Server running on port ${port}`));
