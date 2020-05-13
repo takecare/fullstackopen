@@ -1,8 +1,10 @@
 const express = require("express");
 const util = require("util");
+const morgan = require("morgan");
 const app = express();
 
 app.use(express.json());
+app.use(morgan("tiny"));
 
 const logger = (req, res, next) => {
   console.log(`> ${req.method} ${req.baseUrl} ${req.path}`);
@@ -91,6 +93,11 @@ app.post("/api/persons", (req, res) => {
 app.get("/info", (req, res) => {
   res.send(`Phonebook has ${persons.length} people, as of ${new Date()}`);
 });
+
+const unknownEndpoint = (req, res) => {
+  res.status(404).send({ error: `Unsupported endpoint: "${req.path}"` });
+};
+app.use(unknownEndpoint);
 
 const port = 3001;
 app.listen(port, () => console.log(`Server running on port ${port}`));
