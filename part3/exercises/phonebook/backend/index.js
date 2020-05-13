@@ -76,9 +76,6 @@ app.delete("/api/persons/:id", (req, res) => {
   const newPersons = persons.filter((person) => person.id !== id);
   if (newPersons.length !== persons.length) {
     persons = newPersons;
-    if (id === maxId) {
-      updateMaxId();
-    }
     res.status(204).end();
   } else {
     res.status(404).send("Not found.");

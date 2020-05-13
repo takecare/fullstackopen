@@ -1,0 +1,21 @@
+.numbers {
+  max-width: 24em;
+}
+
+.numbers ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.numbers li {
+  line-height: 1.2em;
+  margin-bottom: 0.4em;
+}
+
+.numbers button {
+  border: 1px solid gray;
+  line-height: inherit;
+  margin: 0 0.2em 0 1em;
+  float: right;
+}
