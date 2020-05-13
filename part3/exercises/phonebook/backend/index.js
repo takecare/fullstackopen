@@ -5,6 +5,13 @@ const app = express();
 
 app.use(express.json());
 
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  next();
+});
+
 morgan.token("body", (req) => util.inspect(req.body));
 app.use(
   morgan((tokens, req, res) => {
@@ -111,5 +118,5 @@ const unknownEndpoint = (req, res) => {
 };
 app.use(unknownEndpoint);
 
-const port = 3001;
+const port = process.env.PORT || 3001;
 app.listen(port, () => console.log(`Server running on port ${port}`));
