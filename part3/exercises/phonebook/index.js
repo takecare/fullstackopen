@@ -4,7 +4,22 @@ const morgan = require("morgan");
 const app = express();
 
 app.use(express.json());
-app.use(morgan("tiny"));
+
+morgan.token("body", (req) => util.inspect(req.body));
+app.use(
+  morgan((tokens, req, res) => {
+    return [
+      tokens.method(req, res),
+      tokens.url(req, res),
+      tokens.status(req, res),
+      tokens.res(req, res, "content-length"),
+      tokens.body(req),
+      "-",
+      tokens["response-time"](req, res),
+      "ms",
+    ].join(" ");
+  })
+);
 
 const logger = (req, res, next) => {
   console.log(`> ${req.method} ${req.baseUrl} ${req.path}`);
