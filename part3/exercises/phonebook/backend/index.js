@@ -53,9 +53,7 @@ let persons = [
   },
 ];
 
-app.get("/", (req, res) => {
-  res.send("Hi!");
-});
+app.use(express.static("build"));
 
 app.get("/api/persons", (req, res) => {
   res.json(persons);
@@ -105,11 +103,6 @@ app.post("/api/persons", (req, res) => {
 app.get("/info", (req, res) => {
   res.send(`Phonebook has ${persons.length} people, as of ${new Date()}`);
 });
-
-const unknownEndpoint = (req, res) => {
-  res.status(404).send({ error: `Unsupported endpoint: "${req.path}"` });
-};
-app.use(unknownEndpoint);
 
 const port = process.env.PORT || 3001;
 app.listen(port, () => console.log(`Server running on port ${port}`));
