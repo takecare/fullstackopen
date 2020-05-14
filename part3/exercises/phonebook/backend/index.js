@@ -1,9 +1,21 @@
 const express = require("express");
 const util = require("util");
 const morgan = require("morgan");
-const app = express();
+const cors = require("./middleware/cors");
+const mongoose = require("mongoose");
+const Person = require("./models/person");
 
+require("dotenv").config();
+const password = process.env.MONGODB_PW;
+const mongoUrl = process.env.MONGODB_URI.replace("<password>", password);
+mongoose
+  .connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then((result) => console.log("Connected to MongoDB"))
+  .catch((error) => console.log("Error connecting to MongoDB:", error.message));
+
+const app = express();
 app.use(express.json());
+app.use(cors);
 
 morgan.token("body", (req) => util.inspect(req.body));
 app.use(
@@ -21,83 +33,38 @@ app.use(
   })
 );
 
-const logger = (req, res, next) => {
-  console.log(`> ${req.method} ${req.baseUrl} ${req.path}`);
-  console.log(`> params: ${util.inspect(req.params)}`);
-  console.log(`> headers: ${util.inspect(req.headers)}`);
-  console.log(`> body: ${util.inspect(req.body)}`);
-  next();
-};
-app.use(logger);
-
-let persons = [
-  {
-    name: "Arto Hellas",
-    number: "040-123456",
-    id: 1,
-  },
-  {
-    name: "Ada Lovelace",
-    number: "39-44-5323523",
-    id: 2,
-  },
-  {
-    name: "Dan Abramov",
-    number: "12-43-234345",
-    id: 3,
-  },
-  {
-    name: "Mary Poppendieck",
-    number: "39-23-6423122",
-    id: 4,
-  },
-];
-
 app.use(express.static("build"));
 
 app.get("/api/persons", (req, res) => {
-  res.json(persons);
+  Person.find({})
+    .then((people) => res.json(people.map((person) => person.toJSON())))
+    .catch((error) => res.status(500).send(error));
 });
 
 app.get("/api/persons/:id", (req, res) => {
-  const id = parseInt(req.params.id);
-  const person = persons.find((person) => person.id === id);
-  if (person) {
-    res.json(person);
-  } else {
-    res.status(404).send(`Entry with id "${id}" not found.`);
-  }
+  Person.findById(req.params.id)
+    .then((person) => res.json(person.toJSON()))
+    .catch((error) => res.status(500).send(error));
 });
 
 app.delete("/api/persons/:id", (req, res) => {
-  const id = parseInt(req.params.id);
-  const newPersons = persons.filter((person) => person.id !== id);
-  if (newPersons.length !== persons.length) {
-    persons = newPersons;
-    res.status(204).end();
-  } else {
-    res.status(404).send("Not found.");
-  }
+  Person.deleteOne({ _id: req.params.id })
+    .then((result) => res.status(204).end())
+    .catch((error) => res.status(500).send(error));
 });
 
 app.post("/api/persons", (req, res) => {
   const person = req.body;
-  if (!person.name || !person.number) {
-    res.status(400).send(`Both "name" and "number" properties are mandatory!`);
-    return;
-  }
-
-  const foundPerson = persons.find((p) => p.name === person.name);
-  if (foundPerson) {
-    res
-      .status(400)
-      .send(`"name" must be unique. "${person.name}" already exists.`);
-    return;
-  }
-
-  const newPerson = { id: parseInt(`${Math.random()}`.slice(2)), ...person };
-  persons = persons.concat(newPerson);
-  res.status(201).send(newPerson);
+  Person.find({ name: person.name })
+    .then((result) => {
+      if (result.length !== 0) {
+        throw `${person.name} already exists.`;
+      }
+      return result;
+    })
+    .then(() => new Person(person).save())
+    .then((result) => res.status(201).send(result.toJSON()))
+    .catch((error) => res.status(500).send(error));
 });
 
 app.get("/info", (req, res) => {
