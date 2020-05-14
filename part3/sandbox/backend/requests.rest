@@ -1,0 +1,15 @@
+# curl -i -H "Content-Type: application/json" -d '{"content":"hello", "important":false}' localhost:3001/api/notes
+POST http://localhost:3001/api/notes
+Content-Type: "application/json"
+
+{
+  "content": "note",
+  "important": false
+}
+
+####
+
+GET http://localhost:3001/api/notes
+Content-Type: "application/json"
+
+####

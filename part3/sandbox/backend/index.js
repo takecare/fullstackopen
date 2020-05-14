@@ -1,68 +1,40 @@
 const express = require("express");
-const util = require("util");
+const logger = require("./middleware/logger");
+const cors = require("./middleware/cors");
+const mongoose = require("mongoose");
+const Note = require("./models/note");
+
 const app = express();
 
+require("dotenv").config();
+const password = process.env.MONGODB_PW;
+const mongoUrl = process.env.MONGODB_URI.replace("<password>", password);
+
+mongoose
+  .connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then((result) => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((error) => {
+    console.log("Error connecting to MongoDB:", error.message);
+  });
+
 app.use(express.json());
-
-const logger = (req, res, next) => {
-  console.log(`> ${req.method} ${req.baseUrl} ${req.path}`);
-  console.log(`> params: ${util.inspect(req.params)}`);
-  console.log(`> headers: ${util.inspect(req.headers)}`);
-  next();
-};
 app.use(logger);
-
-// https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Headers", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-  next();
-});
-
-let notes = [
-  {
-    id: 1,
-    content: "HTML is easy",
-    date: "2019-05-30T17:30:31.098Z",
-    important: true,
-  },
-  {
-    id: 2,
-    content: "Browser can execute only Javascript",
-    date: "2019-05-30T18:39:34.091Z",
-    important: false,
-  },
-  {
-    id: 3,
-    content: "GET and POST are the most important methods of HTTP protocol",
-    date: "2019-05-30T19:20:14.298Z",
-    important: true,
-  },
-];
+app.use(cors);
 
 app.use(express.static("build"));
 
-let maxId = 0;
-const findMaxId = () =>
-  notes.forEach((note) => {
-    if (note.id > maxId) {
-      maxId = note.id;
-    }
-  });
-
 app.get("/api/notes", (req, res) => {
-  res.json(notes);
+  Note.find({}).then((notes) => res.json(notes));
 });
 
 app.get("/api/notes/:id", (req, res) => {
   const id = parseInt(req.params.id);
-  const note = notes.find((note) => note.id === id);
-  if (note) {
-    res.json(note);
-  } else {
-    res.status(404).send("Not found.");
-  }
+
+  Note.findById(req.params.id)
+    .then((note) => res.json(note.toJSON()))
+    .catch((error) => res.status(404).send(error));
 });
 
 app.delete("/api/notes/:id", (req, res) => {
@@ -70,9 +42,6 @@ app.delete("/api/notes/:id", (req, res) => {
   const newNotes = notes.filter((note) => note.id !== id);
   if (newNotes.length !== notes.length) {
     notes = newNotes;
-    if (id === maxId) {
-      findMaxId();
-    }
     res.status(204).end();
   } else {
     res.status(404).send("Not found.");
@@ -81,23 +50,20 @@ app.delete("/api/notes/:id", (req, res) => {
 
 app.post("/api/notes", (req, res) => {
   const note = req.body;
-  if (!note.content) {
-    res.status(400).send(`"content" property is missing`);
-    return;
-  }
 
-  const newNote = {
-    id: ++maxId,
+  const newNote = new Note({
     date: new Date(),
     important: false,
     ...note,
-  };
-  notes = notes.concat(newNote);
-  res.status(201).send(newNote);
+  });
+
+  newNote
+    .save()
+    .then((result) => res.status(201).send(newNote.toJSON()))
+    .catch((error) => res.status(500).send(error));
 });
 
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
-  findMaxId();
   console.log(`Server running on port ${port}`);
 });
