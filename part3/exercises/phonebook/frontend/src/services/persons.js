@@ -1,6 +1,14 @@
 import axios from "axios";
 const baseUrl = "/api/persons";
 
+const create = (person) =>
+  new Promise((resolve, reject) => {
+    axios
+      .post(baseUrl, person)
+      .then((response) => resolve(response.data))
+      .catch((error) => reject(error));
+  });
+
 const read = (id) => {
   const original = axios.get(`${baseUrl}/${id ? id : ""}`);
   return new Promise((resolve, reject) => {
@@ -10,18 +18,13 @@ const read = (id) => {
   });
 };
 
-const create = (number) =>
+const update = (person) =>
   new Promise((resolve, reject) => {
     axios
-      .post(baseUrl, number)
-      .then((response) => resolve(response.data))
-      .catch((error) => reject(error));
-  });
-
-const update = (number) =>
-  new Promise((resolve, reject) => {
-    axios
-      .put(`${baseUrl}/${number.id}`, number)
+      .put(`${baseUrl}/${person.id}`, {
+        name: person.name,
+        number: person.number,
+      })
       .then((response) => resolve(response.data))
       .catch((error) => reject(error));
   });

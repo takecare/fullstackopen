@@ -1,75 +1,85 @@
 const express = require("express");
-const util = require("util");
-const morgan = require("morgan");
+const morgan = require("./middleware/morgan");
+const logger = require("./middleware/logger");
 const cors = require("./middleware/cors");
-const mongoose = require("mongoose");
+const errorHandler = require("./middleware/errorhandler");
+const unsupportedEndpoint = require("./middleware/unsupportedendpoint");
+const mongooseWrapper = require("./database/mongoose");
 const Person = require("./models/person");
+const Error = require("./models/error");
 
-require("dotenv").config();
-const password = process.env.MONGODB_PW;
-const mongoUrl = process.env.MONGODB_URI.replace("<password>", password);
-mongoose
-  .connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then((result) => console.log("Connected to MongoDB"))
-  .catch((error) => console.log("Error connecting to MongoDB:", error.message));
+mongooseWrapper.connect();
 
 const app = express();
+app.use(express.static("build"));
 app.use(express.json());
+app.use(logger);
+app.use(morgan);
 app.use(cors);
 
-morgan.token("body", (req) => util.inspect(req.body));
-app.use(
-  morgan((tokens, req, res) => {
-    return [
-      tokens.method(req, res),
-      tokens.url(req, res),
-      tokens.status(req, res),
-      tokens.res(req, res, "content-length"),
-      tokens.body(req),
-      "-",
-      tokens["response-time"](req, res),
-      "ms",
-    ].join(" ");
-  })
-);
-
-app.use(express.static("build"));
-
-app.get("/api/persons", (req, res) => {
+app.get("/api/persons", (req, res, next) => {
   Person.find({})
     .then((people) => res.json(people.map((person) => person.toJSON())))
-    .catch((error) => res.status(500).send(error));
+    .catch((error) => next(error));
 });
 
-app.get("/api/persons/:id", (req, res) => {
+app.get("/api/persons/:id", (req, res, next) => {
   Person.findById(req.params.id)
-    .then((person) => res.json(person.toJSON()))
-    .catch((error) => res.status(500).send(error));
+    .then((result) => {
+      if (result) {
+        res.json(result.toJSON());
+      } else {
+        throw new Error("NotFound", `Id "${req.params.id}" not found.`);
+      }
+    })
+    .catch((error) => next(error));
 });
 
-app.delete("/api/persons/:id", (req, res) => {
+app.delete("/api/persons/:id", (req, res, next) => {
   Person.deleteOne({ _id: req.params.id })
     .then((result) => res.status(204).end())
-    .catch((error) => res.status(500).send(error));
+    .catch((error) => next(error));
 });
 
-app.post("/api/persons", (req, res) => {
+app.post("/api/persons", (req, res, next) => {
   const person = req.body;
   Person.find({ name: person.name })
     .then((result) => {
       if (result.length !== 0) {
-        throw `${person.name} already exists.`;
+        throw new Error("AlreadyExists", `${person.name} already exists.`);
       }
       return result;
     })
     .then(() => new Person(person).save())
     .then((result) => res.status(201).send(result.toJSON()))
-    .catch((error) => res.status(500).send(error));
+    .catch((error) => next(error));
 });
 
-app.get("/info", (req, res) => {
-  res.send(`Phonebook has ${persons.length} people, as of ${new Date()}`);
+app.put("/api/persons/:id", (req, res, next) => {
+  // https://mongoosejs.com/docs/api.html#model_Model.findOneAndUpdate
+  Person.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
+    .then((result) => {
+      if (result) {
+        res.status(200).send(result.toJSON());
+      } else {
+        throw new Error("NotFound", `Id "${req.params.id}" not found.`);
+      }
+    })
+    .catch((error) => next(error));
 });
+
+app.get("/info", (req, res, next) => {
+  Person.find({})
+    .then((people) =>
+      res.send(`Phonebook has ${people.length} people, as of ${new Date()}.`)
+    )
+    .catch((error) => next(error));
+});
+
+app.use(unsupportedEndpoint);
+app.use(errorHandler);
 
 const port = process.env.PORT || 3001;
-app.listen(port, () => console.log(`Server running on port ${port}`));
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});

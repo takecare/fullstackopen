@@ -1,0 +1,44 @@
+### Create new person
+# curl -i -H "Content-Type: application/json" -d '{"content":"hello", "important":false}' localhost:3001/api/persons
+POST http://localhost:3001/api/persons
+Content-Type: "application/json"
+
+{
+  "name": "personX",
+  "number": "numberX"
+}
+
+### GET all persons
+# curl -i -H "Content-Type: application/json" localhost:3001/api/persons
+GET http://localhost:3001/api/persons
+Content-Type: "application/json"
+
+### GET person by id
+# curl -i -H "Content-Type: application/json" localhost:3001/api/persons/5ebd4280320be4405c0f674f
+GET http://localhost:3001/api/persons/5ebd4280320be4405c0f674f
+Content-Type: "application/json"
+
+### GET non-existent person (non-existent id but correctly formatted)
+# curl -i -H "Content-Type: application/json" localhost:3001/api/persons/5c23c23e84d231c15dfa2323
+GET http://localhost:3001/api/persons/5c23c23e84d231c15dfa2323
+Content-Type: "application/json"
+
+### GET non-existent person (badly-formatted id)
+# curl -i -H "Content-Type: application/json" localhost:3001/api/persons/5c41c90e84d891c15dfa3431
+GET http://localhost:3001/api/persons/nonexistentid
+Content-Type: "application/json"
+
+### Update person
+# curl -i -X PUT -H "Content-Type: application/json" -d '{"content":"updated", "important":true}' localhost:3001/api/persons/5ebd4280320be4405c0f674f
+PUT http://localhost:3001/api/persons/5ebd4280320be4405c0f674f
+Content-Type: "application/json"
+
+{
+  "name": "personXupdated",
+  "number": "numberXupdated"
+}
+
+### Delete person
+# curl -i -X DELETE -H "Content-Type: application/json" localhost:3001/api/persons/5ebd6405da65c691b37313e1
+DELETE http://localhost:3001/api/persons/5ebd6405da65c691b37313e1
+Content-Type: "application/json"

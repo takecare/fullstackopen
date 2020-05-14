@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import numbers from "./services/numbers";
+import personsService from "./services/persons";
 import Filter from "./components/filter/Filter";
 import NumberForm from "./components/numberform/NumberForm";
 import Numbers from "./components/numbers/Numbers";
@@ -15,8 +15,8 @@ const App = () => {
   const [message, setNewMessage] = useState({ text: "", isError: false });
   const [storedTimeout, storeTimeout] = useState(null);
 
-  const getNumbersHook = () => {
-    numbers
+  const getPersonsHook = () => {
+    personsService
       .read()
       .then((data) => setPersons(data))
       .catch((error) => {
@@ -24,7 +24,7 @@ const App = () => {
         console.error(error);
       });
   };
-  useEffect(getNumbersHook, []);
+  useEffect(getPersonsHook, []);
 
   const handleNameInputChange = (event) => {
     setNewName(event.target.value);
@@ -38,19 +38,21 @@ const App = () => {
     setNewFilter(event.target.value);
   };
 
-  const replace = (person) => {
-    numbers
-      .update({ ...person, number: newNumber })
+  const updatePerson = (updatedPerson) => {
+    personsService
+      .update({ ...updatedPerson, number: newNumber })
       .then((data) => {
         setPersons(
-          persons.map((item) => (item.id === person.id ? data : item))
+          persons.map((person) =>
+            person.id === updatedPerson.id ? data : person
+          )
         );
-        displayMessage(`${person.name}'s number replaced.`);
+        displayMessage(`${updatedPerson.name}'s number replaced.`);
         setNewName("");
         setNewNumber("");
       })
       .catch((error) => {
-        displayError(`Failed to replace ${person.name}'s number.`);
+        displayError(`Failed to replace ${updatedPerson.name}'s number.`);
         console.error(error);
       });
   };
@@ -83,11 +85,11 @@ const App = () => {
         `${newName} is already on the phonebook. Replace with a new one?`
       );
       if (shouldRepalce) {
-        replace(person);
+        updatePerson(person);
       }
     } else {
       const number = { name: newName, number: newNumber };
-      numbers
+      personsService
         .create(number)
         .then((data) => {
           setPersons(persons.concat(data));
@@ -105,7 +107,7 @@ const App = () => {
     const person = persons.find((person) => person.id === id);
     const shouldDelete = window.confirm(`Delete ${person.name}?`);
     if (shouldDelete) {
-      numbers
+      personsService
         .remove(id)
         .then(() => {
           setPersons(persons.filter((person) => person.id !== id));
