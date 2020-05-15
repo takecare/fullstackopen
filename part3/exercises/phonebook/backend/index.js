@@ -44,12 +44,6 @@ app.delete("/api/persons/:id", (req, res, next) => {
 app.post("/api/persons", (req, res, next) => {
   const person = req.body;
   Person.find({ name: person.name })
-    .then((result) => {
-      if (result.length !== 0) {
-        throw new Error("AlreadyExists", `${person.name} already exists.`);
-      }
-      return result;
-    })
     .then(() => new Person(person).save())
     .then((result) => res.status(201).send(result.toJSON()))
     .catch((error) => next(error));
@@ -57,7 +51,12 @@ app.post("/api/persons", (req, res, next) => {
 
 app.put("/api/persons/:id", (req, res, next) => {
   // https://mongoosejs.com/docs/api.html#model_Model.findOneAndUpdate
-  Person.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
+  // https://github.com/blakehaswell/mongoose-unique-validator#readme
+  Person.findOneAndUpdate({ _id: req.params.id }, req.body, {
+    new: true,
+    runValidators: true,
+    context: "query",
+  })
     .then((result) => {
       if (result) {
         res.status(200).send(result.toJSON());

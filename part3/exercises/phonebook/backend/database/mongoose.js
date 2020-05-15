@@ -11,6 +11,7 @@ const mongooseWrapper = {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useFindAndModify: false,
+        useCreateIndex: true, // mongoose-unique-validator
       })
       .then((result) => {
         console.log("Connected to MongoDB");

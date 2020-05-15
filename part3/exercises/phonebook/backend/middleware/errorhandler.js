@@ -5,14 +5,9 @@ const errorHandler = (error, req, res, next) => {
     return res.status(400).send({ ...error, message: "Malformatted id" });
   } else if (error.name === "NotFound") {
     return res.status(404).send({ ...error, message: "Not found" });
-  } else if (error.name === "AlreadyExists") {
-    return res.status(400).send(error);
+  } else if (error.name === "ValidationError") {
+    return res.status(404).send({ error: error.message });
   }
-  // else {
-  //   return res
-  //     .status(500)
-  //     .send({ error: "UnknownError", message: "Unknown error", ...error });
-  // }
 
   next(error);
 };

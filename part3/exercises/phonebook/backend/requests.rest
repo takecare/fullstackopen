@@ -1,5 +1,5 @@
 ### Create new person
-# curl -i -H "Content-Type: application/json" -d '{"content":"hello", "important":false}' localhost:3001/api/persons
+# curl -i -H "Content-Type: application/json" -d '{"name":"personX", "number":"numberX"}' localhost:3001/api/persons
 POST http://localhost:3001/api/persons
 Content-Type: "application/json"
 
@@ -29,7 +29,7 @@ GET http://localhost:3001/api/persons/nonexistentid
 Content-Type: "application/json"
 
 ### Update person
-# curl -i -X PUT -H "Content-Type: application/json" -d '{"content":"updated", "important":true}' localhost:3001/api/persons/5ebd4280320be4405c0f674f
+# curl -i -X PUT -H "Content-Type: application/json" -d '{"name":"personXupdated", "number":"numberXupdated"}' localhost:3001/api/persons/5ebd4280320be4405c0f674f
 PUT http://localhost:3001/api/persons/5ebd4280320be4405c0f674f
 Content-Type: "application/json"
 

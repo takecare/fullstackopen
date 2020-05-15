@@ -61,8 +61,9 @@ app.post("/api/notes", (req, res, next) => {
 
   newNote
     .save()
-    .then((result) => res.status(201).send(newNote.toJSON()))
-    .catch((error) => res.status(500).send(error));
+    .then((result) => newNote.toJSON())
+    .then((note) => res.status(201).send(note))
+    .catch((error) => next(error));
 });
 
 app.put("/api/notes/:id", (req, res, next) => {

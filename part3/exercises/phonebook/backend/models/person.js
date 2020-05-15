@@ -1,11 +1,13 @@
 const mongoose = require("mongoose");
+const uniqueValidator = require("mongoose-unique-validator");
 
 // https://mongoosejs.com/docs/models.html
 
 const personSchema = new mongoose.Schema({
-  name: { type: String, required: true },
+  name: { type: String, required: true, unique: true },
   number: { type: String, required: true },
 });
+personSchema.plugin(uniqueValidator);
 const Person = mongoose.model("Person", personSchema);
 
 personSchema.set("toJSON", {

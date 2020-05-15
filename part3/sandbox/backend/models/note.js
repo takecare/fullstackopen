@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const noteSchema = new mongoose.Schema({
-  content: { type: String, required: true },
-  date: Date,
+  content: { type: String, minlength: 3, required: true },
+  date: { type: Date, required: true },
   important: Boolean,
 });
 
