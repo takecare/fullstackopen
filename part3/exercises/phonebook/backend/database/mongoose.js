@@ -13,9 +13,7 @@ const mongooseWrapper = {
         useFindAndModify: false,
         useCreateIndex: true, // mongoose-unique-validator
       })
-      .then((result) => {
-        console.log("Connected to MongoDB");
-      })
+      .then(() => console.log("Connected to MongoDB"))
       .catch((error) => {
         console.error("Error connecting to MongoDB:", error.message);
       });
