@@ -26,16 +26,24 @@ const App = () => {
   };
   useEffect(getPersonsHook, []);
 
-  const handleNameInputChange = (event) => {
-    setNewName(event.target.value);
-  };
+  const handleNameInputChange = (event) => setNewName(event.target.value);
+  const handleNumberInputChange = (event) => setNewNumber(event.target.value);
+  const handleFilterInputChange = (event) => setNewFilter(event.target.value);
 
-  const handleNumberInputChange = (event) => {
-    setNewNumber(event.target.value);
-  };
+  const displayMessage = (message) =>
+    displayNotice({ text: message, isError: false });
 
-  const handleFilterInputChange = (event) => {
-    setNewFilter(event.target.value);
+  const displayError = (message) =>
+    displayNotice({ text: message, isError: true });
+
+  const displayNotice = (message) => {
+    clearTimeout(storedTimeout);
+    setNewMessage(message);
+    const timeout = setTimeout(() => {
+      storeTimeout(null);
+      setNewMessage({ ...message, text: null });
+    }, MESSAGE_TIMEOUT_MS);
+    storeTimeout(timeout);
   };
 
   const updatePerson = (updatedPerson) => {
@@ -51,30 +59,7 @@ const App = () => {
         setNewName("");
         setNewNumber("");
       })
-      .catch((error) => {
-        displayError(`Failed to replace ${updatedPerson.name}'s number.`);
-        console.error(error);
-      });
-  };
-
-  const displayMessage = (message) => {
-    clearTimeout(storedTimeout);
-    setNewMessage({ text: message, isError: false });
-    const timeout = setTimeout(() => {
-      storeTimeout(null);
-      setNewMessage({ ...message, text: null });
-    }, MESSAGE_TIMEOUT_MS);
-    storeTimeout(timeout);
-  };
-
-  const displayError = (message) => {
-    clearTimeout(storedTimeout);
-    setNewMessage({ text: message, isError: true });
-    const timeout = setTimeout(() => {
-      storeTimeout(null);
-      setNewMessage({ ...message, text: null });
-    }, MESSAGE_TIMEOUT_MS);
-    storeTimeout(timeout);
+      .catch((error) => displayError(error.message));
   };
 
   const addNumber = () => {
@@ -96,10 +81,7 @@ const App = () => {
           setNewName("");
           setNewNumber("");
         })
-        .catch((error) => {
-          displayError("Failed to add new number.");
-          console.error(error);
-        });
+        .catch((error) => displayError(error.message));
     }
   };
 
@@ -113,10 +95,7 @@ const App = () => {
           setPersons(persons.filter((person) => person.id !== id));
           displayMessage(`${person.name} removed.`);
         })
-        .catch((error) => {
-          displayError(`Failed to remove ${person.name}.`);
-          console.error(error);
-        });
+        .catch((error) => displayError(error.message));
     }
   };
 

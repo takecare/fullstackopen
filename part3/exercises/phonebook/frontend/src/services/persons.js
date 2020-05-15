@@ -6,7 +6,7 @@ const create = (person) =>
     axios
       .post(baseUrl, person)
       .then((response) => resolve(response.data))
-      .catch((error) => reject(error));
+      .catch((error) => reject(error.response.data));
   });
 
 const read = (id) => {
@@ -14,7 +14,7 @@ const read = (id) => {
   return new Promise((resolve, reject) => {
     original
       .then((response) => resolve(response.data))
-      .catch((error) => reject(error));
+      .catch((error) => reject(error.response.data));
   });
 };
 
@@ -26,7 +26,7 @@ const update = (person) =>
         number: person.number,
       })
       .then((response) => resolve(response.data))
-      .catch((error) => reject(error));
+      .catch((error) => reject(error.response.data));
   });
 
 const remove = (id) =>
@@ -34,7 +34,7 @@ const remove = (id) =>
     axios
       .delete(`${baseUrl}/${id}`)
       .then((response) => resolve(response.data))
-      .catch((error) => reject(error));
+      .catch((error) => reject(error.response.data));
   });
 
 export default {
