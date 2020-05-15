@@ -1,0 +1,31 @@
+# curl -i -H "Content-Type: application/json" -d '{"content":"hello", "important":false}' localhost:3001/api/notes
+POST http://localhost:3001/api/notes
+Content-Type: "application/json"
+
+{
+  "content": "note",
+  "important": false
+}
+
+####
+
+# curl -i -H "Content-Type: application/json" localhost:3001/api/notes
+GET http://localhost:3001/api/notes
+Content-Type: "application/json"
+
+####
+
+# curl -i -H "Content-Type: application/json" localhost:3001/api/notes/5c41c90e84d891c15dfa3431
+GET http://localhost:3001/api/notes/nonexistentid
+Content-Type: "application/json"
+
+####
+
+# curl -i -X PUT -H "Content-Type: application/json" -d '{"content":"updated", "important":true}' localhost:3001/api/notes/5c41c90e84d891c15dfa3431
+PUT http://localhost:3001/api/notes/5ebd4836900c9f6b27dc637c
+Content-Type: "application/json"
+
+{
+  "content": "note",
+  "important": true
+}
