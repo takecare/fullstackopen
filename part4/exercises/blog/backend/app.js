@@ -14,7 +14,7 @@ app.use(requestlogger);
 app.use(errorhandler);
 app.use(cors);
 
-// TODO unhandled endpoing middleware
+// TODO unhandled endpoint middleware
 
 app.use("/api/blogs", blogsRouter);
 
