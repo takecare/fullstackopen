@@ -5,9 +5,9 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "part4 backend",
+      "name": "backend",
       "runtimeExecutable": "node",
-      "program": "${workspaceFolder}/part4/sandbox/backend/index.js",
+      "program": "${workspaceFolder}/sandbox/backend/index.js",
       "restart": true,
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
@@ -17,7 +17,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "part4 backend (npm)",
+      "name": "npm start [fixme]",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["start"],
       "program": "${workspaceFolder}/sandbox/backend/index.js",
@@ -26,6 +26,20 @@
       "internalConsoleOptions": "neverOpen",
       "skipFiles": ["<node_internals>/**"],
       "envFile": "${workspaceFolder}/sandbox/backend/.env"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "jest - all",
+      "program": "${workspaceFolder}/sandbox/backend/node_modules/.bin/jest",
+      "args": [
+        "--runInBand",
+        "--config",
+        "${workspaceFolder}/sandbox/backend/jest.config.js"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true
     }
   ]
 }

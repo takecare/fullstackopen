@@ -13,9 +13,6 @@
     "test": "NODE_ENV=test; jest --verbose --runInBand",
     "lint": "eslint ."
   },
-  "jest": {
-    "testEnvironment": "node"
-  },
   "author": "takecare",
   "license": "ISC",
   "dependencies": {
