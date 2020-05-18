@@ -15,12 +15,9 @@ app.use(express.json());
 app.use(logger);
 app.use(cors);
 
-app.use("/api/persons", notesRouter);
+app.use("/api/notes", notesRouter);
 
 app.use(unsupportedEndpoint);
 app.use(errorHandler);
 
-const port = process.env.PORT || 3001;
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+module.exports = app;
