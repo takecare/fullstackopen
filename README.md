@@ -35,3 +35,15 @@ So, each part has its own directory, which contains a directory for each exercis
 
 The exercises are submitted one part at a time. When you have submitted the exercises for a part, you can no longer submit any missed exercises for that part.
 ```
+
+#### Additional material
+
+##### VS Code
+
+- https://code.visualstudio.com/docs/editor/tasks
+- https://code.visualstudio.com/docs/nodejs/nodejs-debugging
+- https://code.visualstudio.com/docs/editor/multi-root-workspaces
+
+##### MongoDB
+
+- https://github.com/williamkapke/mongo-mock
