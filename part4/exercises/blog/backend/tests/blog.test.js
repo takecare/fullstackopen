@@ -10,19 +10,21 @@ afterEach(async () => {
   await Blog.deleteMany({});
 });
 
-describe("model", () => {
-  test("'likes' property defaults to 0", async () => {
-    const blog = {
-      title: "some title",
-      author: "some author",
-      url: "some url",
-    };
-    const savedBlog = await new Blog(blog).save();
-    expect(savedBlog.likes).toBe(0);
+describe("blog model", () => {
+  describe("when creating a blog instance", () => {
+    test("the 'likes' property defaults to 0", async () => {
+      const blog = {
+        title: "some title",
+        author: "some author",
+        url: "some url",
+      };
+      const savedBlog = await new Blog(blog).save();
+      expect(savedBlog.likes).toBe(0);
+    });
   });
 
-  describe("conversion to json", () => {
-    it("should contain an id property", async () => {
+  describe("when converting to json", () => {
+    it("the result should contain an id property", async () => {
       const blog = {
         title: "a title",
         author: "an author",

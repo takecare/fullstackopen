@@ -10,12 +10,12 @@ const app = express();
 
 app.use(express.json());
 app.use(requestlogger);
-app.use(errorhandler);
 app.use(cors);
 
-// TODO unhandled endpoint middleware
-
 app.use("/api/blogs", blogsRouter);
+
+app.use(errorhandler);
+// TODO unhandled endpoint middleware
 
 mongoose.connect();
 

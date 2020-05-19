@@ -53,6 +53,24 @@ describe("creating blogs", () => {
       url: blog.url,
     });
   });
+
+  test("can't add a blog without title", async () => {
+    const blog = {
+      author: "an author",
+      url: "a url",
+      likes: 23,
+    };
+    const response = await api.post("/api/blogs").send(blog).expect(400);
+  });
+
+  test("can't add a blog without url", async () => {
+    const blog = {
+      author: "an author",
+      title: "a title",
+      likes: 23,
+    };
+    const response = await api.post("/api/blogs").send(blog).expect(400);
+  });
 });
 
 describe("reading blogs", () => {
