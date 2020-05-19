@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const supertest = require("supertest");
 const Note = require("../models/note");
 const app = require("../app");
-const notes = require("./fixtures");
+const notes = require("./fixtures").notes;
 
 const api = supertest(app);
 
@@ -37,6 +37,8 @@ test("a specific note is within the returned notes", async () => {
 });
 
 test("a valid note is added", async () => {
+  // this test isn't great as we're relying on creating a new note every time
+
   const newNote = { content: "a new note", important: false };
 
   await api
@@ -46,16 +48,26 @@ test("a valid note is added", async () => {
     .expect("Content-Type", /application\/json/);
 
   const response = await api.get("/api/notes");
-  const notes = response.body.map((res) => res.content);
+  const notesContent = response.body.map((note) => note.content);
 
-  expect(notes).toHaveLength(notes.length + 1);
-  expect(notes).toContain("a new note");
+  expect(notesContent).toHaveLength(notes.length + 1);
+  expect(notesContent).toContain("a new note");
 });
 
 test("empty note can't be added", async () => {
   const newNote = { important: false };
 
   await api.post("/api/notes").send(newNote).expect(400);
+});
+
+test("can fetch an individual note", async () => {
+  const notesResponse = await api.get("/api/notes");
+  const aNote = notesResponse.body[0];
+
+  const response = await api.get(`/api/notes/${aNote.id}`).expect(200);
+  const note = response.body;
+
+  expect(note).toEqual(aNote);
 });
 
 afterAll(() => {
