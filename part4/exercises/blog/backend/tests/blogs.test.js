@@ -1,4 +1,4 @@
-const fixtures = require("./fixtures");
+const fixturesData = require("./fixtures");
 const supertest = require("supertest");
 const mongoose = require("mongoose");
 const Blog = require("../models/blog");
@@ -6,9 +6,15 @@ const app = require("../app");
 
 const api = supertest(app);
 
+const fixtures = {
+  blogs: fixturesData.blogs,
+  ids: [],
+};
+
 beforeEach(async () => {
   const createBlogs = fixtures.blogs.map((blog) => new Blog(blog).save());
-  const results = await Promise.all(createBlogs);
+  const result = await Promise.all(createBlogs);
+  result.forEach((blog, index) => (fixtures.ids[index] = blog.id));
 });
 
 afterEach(async () => {
@@ -60,7 +66,7 @@ describe("creating blogs", () => {
       url: "a url",
       likes: 23,
     };
-    const response = await api.post("/api/blogs").send(blog).expect(400);
+    await api.post("/api/blogs").send(blog).expect(400);
   });
 
   test("can't add a blog without url", async () => {
@@ -69,7 +75,7 @@ describe("creating blogs", () => {
       title: "a title",
       likes: 23,
     };
-    const response = await api.post("/api/blogs").send(blog).expect(400);
+    await api.post("/api/blogs").send(blog).expect(400);
   });
 });
 
@@ -90,7 +96,10 @@ describe("updating blogs", () => {
 });
 
 describe("deleting blogs", () => {
-  //
+  test("can delete a single blog", async () => {
+    const id = fixtures.ids[0];
+    await api.delete(`/api/blogs/${id}`).expect(204);
+  });
 });
 
 const getAll = async () => await api.get("/api/blogs");
