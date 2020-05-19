@@ -1,10 +1,17 @@
 require("dotenv").config();
 
-const mongoPassword = process.env.MONGODB_PW;
-const mongoUrl = process.env.MONGODB_URI.replace("<password>", mongoPassword);
+const isTestEnv = process.env.NODE_ENV === "test";
+
+const mongoPassword = isTestEnv
+  ? process.env.MONGODB_TEST_PW
+  : process.env.MONGODB_PROD_PW;
+const mongoUri = isTestEnv
+  ? process.env.MONGODB_TEST_URI
+  : process.env.MONGODB_PROD_URI;
+const uri = mongoUri.replace("<password>", mongoPassword);
 const port = process.env.PORT;
 
 module.exports = {
-  mongoUrl,
+  mongoUri: uri,
   port,
 };

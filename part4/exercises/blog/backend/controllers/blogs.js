@@ -3,17 +3,15 @@ const Model = require("../models/blog");
 
 const router = express.Router();
 
-router.get("/", (req, res, next) => {
-  Model.find({})
-    .then((result) => res.send(result.map((item) => item.toJSON())))
-    .catch((error) => next(error));
+router.get("/", async (req, res, next) => {
+  const result = await Model.find({});
+  res.send(result.map((item) => item.toJSON()));
 });
 
-router.post("/", (req, res, next) => {
+router.post("/", async (req, res, next) => {
   const blog = req.body;
-  Model.create(blog)
-    .then((result) => res.status(201).send(result.toJSON()))
-    .catch((error) => next(error));
+  const result = await Model.create(blog);
+  res.status(201).send(result.toJSON());
 });
 
 module.exports = router;

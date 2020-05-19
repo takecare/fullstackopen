@@ -1,80 +1,76 @@
 const fixtures = require("./fixtures");
-const dumb = require("./dumb");
+const supertest = require("supertest");
+const mongoose = require("mongoose");
+const Blog = require("../models/blog");
+const app = require("../app");
 
-describe("dumb", () => {
-  test("something", () => {
-    expect(dumb.dumb([])).toBe(1);
-  });
+const api = supertest(app);
+
+beforeEach(async () => {
+  const createBlogs = fixtures.blogs.map((blog) => new Blog(blog).save);
+  const results = await Promise.all(createBlogs);
+  results.forEach((result, i) => (fixtures.blogs[i].id = result.id));
 });
 
-describe("totalLikes", () => {
-  test("given a list of blogs then totalLikes returns the sum of their likes", () => {
-    expect(dumb.totalLikes(fixtures.blogs)).toEqual(18);
-  });
-
-  test("given a list with 1 blog then totalLikes returns the likes of that blog", () => {
-    expect(dumb.totalLikes([fixtures.blogs[0]])).toBe(fixtures.blogs[0].likes);
-  });
-
-  test("given an empty list then totalLikes returns 0", () => {
-    expect(dumb.totalLikes([])).toBe(0);
-  });
+afterEach(async () => {
+  await Blog.deleteMany({});
 });
 
-describe("favoriteBlog", () => {
-  test("blog with most likes is considered the favorite", () => {
-    expect(dumb.favoriteBlog(fixtures.blogs)).toEqual({
-      title: "Something something",
-      author: "A. Person",
-      likes: 9,
-    });
-  });
+describe("creating blogs", () => {
+  test("can add a new blog", async () => {
+    const response = await api
+      .post("/api/blogs")
+      .send(fixtures.blogs[0])
+      .expect(201)
+      .expect("Content-Type", /application\/json/);
 
-  test("only blog in list is the favorite", () => {
-    expect(dumb.favoriteBlog([fixtures.blogs[0]])).toEqual({
+    const newBlog = response.body;
+    expect({
+      title: newBlog.title,
+      author: newBlog.author,
+      likes: newBlog.likes,
+      url: newBlog.url,
+    }).toEqual({
       title: fixtures.blogs[0].title,
       author: fixtures.blogs[0].author,
       likes: fixtures.blogs[0].likes,
+      url: fixtures.blogs[0].url,
     });
   });
+});
 
-  test("empty list has no favorite", () => {
-    expect(dumb.favoriteBlog([])).toEqual({});
+describe("reading blogs", () => {
+  test("can retreive all blogs", async () => {
+    const response = await api
+      .get("/api/blogs")
+      .expect(200)
+      .expect("Content-Type", /application\/json/);
+
+    const blogs = response.body;
+    blogs.forEach((blog, i) => {
+      expect({
+        title: blog.title,
+        author: blog.author,
+        likes: blog.likes,
+        url: blog.url,
+      }).toEqual({
+        title: fixtures.blogs[i].title,
+        author: fixtures.blogs[i].author,
+        likes: fixtures.blogs[i].likes,
+        url: fixtures.blogs[i].url,
+      });
+    });
   });
 });
 
-describe("mostBlogs", () => {
-  test("dijkstra has the most blogs", () => {
-    const result = dumb.mostBlogs(fixtures.blogs);
-    expect(result.author).toEqual("Edsger W. Dijkstra");
-    expect(result.blogs).toEqual(2);
-  });
-
-  test("author of the only blog in list has the most blogs", () => {
-    const result = dumb.mostBlogs([fixtures.blogs[0]]);
-    expect(result.author).toEqual(fixtures.blogs[0].author);
-    expect(result.blogs).toEqual(1);
-  });
-
-  test("cannot find author with most blogs in empty list", () => {
-    expect(dumb.mostBlogs).toThrow();
-  });
+describe("updating blogs", () => {
+  //
 });
 
-describe("mostLikes", () => {
-  test("'a. person' has the most blogs", () => {
-    const result = dumb.mostLikes(fixtures.blogs);
-    expect(result.author).toEqual("A. Person");
-    expect(result.likes).toEqual(9);
-  });
+describe("deleting blogs", () => {
+  //
+});
 
-  test("author of the only blog has the most likes", () => {
-    const result = dumb.mostLikes([fixtures.blogs[0]]);
-    expect(result.author).toEqual(fixtures.blogs[0].author);
-    expect(result.likes).toEqual(fixtures.blogs[0].likes);
-  });
-
-  test("cannot find author with most likes in empty list", () => {
-    expect(dumb.mostLikes).toThrow();
-  });
+afterAll(() => {
+  mongoose.connection.close();
 });

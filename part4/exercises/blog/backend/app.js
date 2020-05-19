@@ -1,4 +1,5 @@
 const express = require("express");
+require("express-async-errors");
 const mongoose = require("mongoose");
 const config = require("./utils/config");
 const logger = require("./utils/logger");
@@ -19,7 +20,7 @@ app.use(cors);
 app.use("/api/blogs", blogsRouter);
 
 mongoose
-  .connect(config.mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(config.mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => logger.info("MongoDB connected."))
   .catch((error) => logger.error("MongoDB failed to connect: ", error));
 
