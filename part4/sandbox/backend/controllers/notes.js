@@ -24,7 +24,7 @@ router.get("/:id", (req, res, next) => {
 
 router.delete("/:id", (req, res, next) => {
   Note.findByIdAndRemove(req.params.id)
-    .then(() => res.status(204).send())
+    .then(() => res.status(204).end())
     .catch((error) => next(error));
 });
 
