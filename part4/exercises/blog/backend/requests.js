@@ -33,7 +33,7 @@ const request = http.request(options, (response) => {
   response.on("data", (chunk) => console.log("<<< BODY:", chunk.toString()));
 });
 
-if (method === "POST" && body) {
+if (body) {
   request.write(body);
 }
 

@@ -20,4 +20,11 @@ router.delete("/:id", async (req, res) => {
   res.status(204).end();
 });
 
+router.put("/:id", async (req, res) => {
+  const id = req.params.id;
+  const data = req.body;
+  const result = await Model.findOneAndUpdate({ _id: id }, data, { new: true });
+  res.status(200).send(result.toJSON());
+});
+
 module.exports = router;

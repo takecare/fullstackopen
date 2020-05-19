@@ -92,7 +92,17 @@ describe("reading blogs", () => {
 });
 
 describe("updating blogs", () => {
-  //
+  test("can update a field", async () => {
+    const id = fixtures.ids[0];
+    const response = await api
+      .put(`/api/blogs/${id}`)
+      .send({ title: "xyz" })
+      .expect(200)
+      .expect("Content-Type", /application\/json/);
+
+    const blog = response.body;
+    expect(blog.title).toBe("xyz");
+  });
 });
 
 describe("deleting blogs", () => {
