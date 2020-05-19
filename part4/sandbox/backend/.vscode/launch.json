@@ -7,12 +7,12 @@
       "request": "launch",
       "name": "backend",
       "runtimeExecutable": "node",
-      "program": "${workspaceFolder}/sandbox/backend/index.js",
+      "program": "${workspaceFolder}/index.js",
       "restart": true,
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "skipFiles": ["<node_internals>/**"],
-      "envFile": "${workspaceFolder}/sandbox/backend/.env"
+      "envFile": "${workspaceFolder}/.env"
     },
     {
       "type": "node",
@@ -20,22 +20,32 @@
       "name": "npm start [fixme]",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["start"],
-      "program": "${workspaceFolder}/sandbox/backend/index.js",
+      "program": "${workspaceFolder}/index.js",
       "restart": true,
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "skipFiles": ["<node_internals>/**"],
-      "envFile": "${workspaceFolder}/sandbox/backend/.env"
+      "envFile": "${workspaceFolder}/.env"
     },
     {
       "type": "node",
       "request": "launch",
       "name": "jest - all",
-      "program": "${workspaceFolder}/sandbox/backend/node_modules/.bin/jest",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": ["--runInBand", "--config", "${workspaceFolder}/jest.config.js"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "jest - current file",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
       "args": [
-        "--runInBand",
+        "${fileBasenameNoExtension}",
         "--config",
-        "${workspaceFolder}/sandbox/backend/jest.config.js"
+        "${workspaceFolder}/jest.config.js"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
