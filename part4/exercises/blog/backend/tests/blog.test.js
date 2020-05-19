@@ -11,6 +11,16 @@ afterEach(async () => {
 });
 
 describe("model", () => {
+  test("'likes' property defaults to 0", async () => {
+    const blog = {
+      title: "some title",
+      author: "some author",
+      url: "some url",
+    };
+    const savedBlog = await new Blog(blog).save();
+    expect(savedBlog.likes).toBe(0);
+  });
+
   describe("conversion to json", () => {
     it("should contain an id property", async () => {
       const blog = {

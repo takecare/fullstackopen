@@ -64,19 +64,6 @@ describe("reading blogs", () => {
 
     const blogs = response.body;
     expect(blogs).toHaveLength(fixtures.blogs.length);
-    // blogs.forEach((blog, i) => {
-    //   expect({
-    //     title: blog.title,
-    //     author: blog.author,
-    //     likes: blog.likes,
-    //     url: blog.url,
-    //   }).toEqual({
-    //     title: fixtures.blogs[i].title,
-    //     author: fixtures.blogs[i].author,
-    //     likes: fixtures.blogs[i].likes,
-    //     url: fixtures.blogs[i].url,
-    //   });
-    // });
   });
 });
 

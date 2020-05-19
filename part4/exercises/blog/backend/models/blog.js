@@ -5,7 +5,7 @@ const blogSchema = mongoose.Schema({
   title: { type: String, required: true },
   author: { type: String },
   url: { type: String, unique: true, required: true },
-  likes: { type: Number },
+  likes: { type: Number, default: 0 },
 });
 
 blogSchema.plugin(uniqueValidator);
