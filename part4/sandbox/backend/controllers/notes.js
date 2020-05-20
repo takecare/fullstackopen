@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Note = require("../models/note");
+const User = require("../models/user");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -29,14 +30,28 @@ router.delete("/:id", async (req, res, next) => {
 });
 
 router.post("/", async (req, res, next) => {
+  let user;
+  try {
+    user = await User.findById(req.body.userId);
+    if (!user) {
+      throw { name: "UserNotFound" };
+    }
+  } catch (error) {
+    next(error);
+    return;
+  }
+
   const newNote = new Note({
-    important: false,
-    ...req.body,
+    important: req.body.important || false,
+    content: req.body.content,
     date: new Date(),
+    user: user._id,
   });
 
   try {
     const note = await newNote.save();
+    user.notes = user.notes.concat(note._id);
+    await user.save();
     res.status(201).send(note.toJSON());
   } catch (error) {
     next(error);
