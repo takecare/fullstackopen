@@ -16,9 +16,11 @@
   "author": "takecare",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^4.0.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mongoose": "^5.9.14"
+    "mongoose": "^5.9.14",
+    "mongoose-unique-validator": "^2.0.3"
   },
   "devDependencies": {
     "eslint": "^7.0.0",
