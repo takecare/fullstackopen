@@ -55,11 +55,15 @@ describe("adding notes", () => {
   test("a valid note is added", async () => {
     // this test isn't great as we're relying on creating a new note every time
 
-    const newNote = { content: "a new note", important: false };
+    const body = {
+      content: "a new note",
+      important: false,
+      userId: "5ec55090ab97012ba1599fc9",
+    };
 
     await api
       .post("/api/notes")
-      .send(newNote)
+      .send(body)
       .expect(201)
       .expect("Content-Type", /application\/json/);
 
