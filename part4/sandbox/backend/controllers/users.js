@@ -3,7 +3,11 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 
 router.get("/", async (req, res) => {
-  const result = await User.find({});
+  const result = await User.find({}).populate("notes", {
+    important: 1,
+    content: 1,
+    date: 1,
+  });
   const users = result.map((user) => user.toJSON());
   res.status(200).send(users);
 });
