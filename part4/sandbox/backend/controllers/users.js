@@ -22,7 +22,7 @@ router.post("/", async (req, res, next) => {
     const newUser = {
       username: req.body.username,
       name: req.body.name,
-      passwordHash,
+      passwordHash: passwordHash,
     };
     const result = await User.create(newUser);
     res.status(201).send(result.toJSON());

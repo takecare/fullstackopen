@@ -11,6 +11,8 @@ const errorHandler = (error, req, res, next) => {
     return res.status(400).send({ error: "User not found" });
   } else if (error.name === "NotFound") {
     return res.status(404).send({ error: "Not found" });
+  } else if (error.name === "JsonWebTokenError") {
+    return res.status(401).json({ error: "invalid token" });
   }
 
   next(error);

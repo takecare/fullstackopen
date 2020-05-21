@@ -1,11 +1,11 @@
 # curl -i -H "Content-Type: application/json" -d '{"content":"hello", "important":false}' localhost:3001/api/notes
 POST http://localhost:3001/api/notes HTTP/1.1
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lIiwiaWQiOiI1ZWM2OWZiMjMxYzJlZGQzMTA1NmJhMDIiLCJpYXQiOjE1OTAwNzYzMDJ9._96DyV4sIDEJVAOLMHGZHy-3ikjRzr0tv26N5Iio1Xk
 
 {
     "content": "note",
-    "important": false,
-    "userId": "5ec544d5c67a7f45d0972d05"
+    "important": false
 }
 
 ####
