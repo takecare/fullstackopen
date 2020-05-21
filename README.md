@@ -47,3 +47,10 @@ The exercises are submitted one part at a time. When you have submitted the exer
 ##### MongoDB
 
 - https://github.com/williamkapke/mongo-mock
+
+##### Token-based auth
+
+- https://en.wikipedia.org/wiki/Cryptographic_hash_function
+- https://codahale.com/how-to-safely-store-a-password/
+- https://github.com/kelektiv/node.bcrypt.js/#a-note-on-rounds
+- https://scotch.io/tutorials/the-ins-and-outs-of-token-based-authentication#toc-how-token-based-works
