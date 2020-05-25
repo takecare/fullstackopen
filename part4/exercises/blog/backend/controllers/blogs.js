@@ -1,4 +1,6 @@
 const express = require("express");
+const jwt = require("jsonwebtoken");
+const config = require("../utils/config");
 const Blog = require("../models/blog");
 const User = require("../models/user");
 const router = express.Router();
@@ -13,12 +15,21 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const users = await User.find({});
-  const user = users[Math.floor(Math.random() * Math.floor(users.length))];
+  const header = req.headers.authorization;
+
+  if (!header) {
+    throw {
+      name: "Unauthorized",
+      message: "Missing authorization header.",
+    };
+  }
+
+  const token = header.substring("Bearer ".length);
+  const decoded = await jwt.verify(token, config.jwtSecret);
 
   const blog = {
     ...req.body,
-    user: user._id,
+    user: decoded.id,
   };
 
   const result = await Blog.create(blog);

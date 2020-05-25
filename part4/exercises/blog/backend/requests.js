@@ -14,6 +14,7 @@ if (args.length < 1) {
 const method = args[0];
 const path = args[1];
 const body = args[2];
+const token = args[3];
 
 const baseUrl = "";
 const options = {
@@ -26,11 +27,29 @@ const options = {
   },
 };
 
+if (token) {
+  options.headers["authorization"] = `Bearer ${token}`;
+}
+
+// let token;
+
 console.log(`>>> ${method} ${baseUrl}${path}`);
 const request = http.request(options, (response) => {
+  let buffer = Buffer.alloc(0);
+
   console.log("<<< STATUS: ", response.statusCode);
   console.log("<<< HEADERS: ", JSON.stringify(response.headers));
-  response.on("data", (chunk) => console.log("<<< BODY:", chunk.toString()));
+  response.on("data", (chunk) => {
+    buffer = Buffer.concat([buffer, chunk], buffer.length + chunk.length);
+  });
+  response.on("end", () => {
+    const body = buffer.toString();
+    const result = body.match(/"token"\:"(.*)",/);
+    if (result) {
+      // token = result[0];
+    }
+    console.log("<<< BODY:", body);
+  });
 });
 
 if (body) {

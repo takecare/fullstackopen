@@ -11,6 +11,12 @@ const handler = (error, req, res, next) => {
     return res.status(400).send({ error: error.message });
   } else if (error.name === "InvalidPassword") {
     return res.status(400).send({ error: "Password is invalid" });
+  } else if (error.name === "InvalidPassword") {
+    return res.status(400).send({ error: "Password is invalid" });
+  } else if (error.name === "JsonWebTokenError") {
+    return res.status(401).send({ error: "Invalid token" });
+  } else if (error.name === "Unauthorized") {
+    return res.status(401).send({ error: error.message });
   } else if (error.name === "NotFound") {
     return res.status(404).send({ error: "Not found" });
   }
