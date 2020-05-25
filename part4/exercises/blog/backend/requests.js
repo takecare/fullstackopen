@@ -15,7 +15,7 @@ const method = args[0];
 const path = args[1];
 const body = args[2];
 
-const baseUrl = "/api/blogs";
+const baseUrl = "";
 const options = {
   port: config.port,
   host: "localhost",

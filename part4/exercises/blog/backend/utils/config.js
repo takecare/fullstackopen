@@ -9,9 +9,13 @@ const mongoUri = isTestEnv
   ? process.env.MONGODB_TEST_URI
   : process.env.MONGODB_PROD_URI;
 const uri = mongoUri.replace("<password>", mongoPassword);
+
+const saltRounds = parseInt(process.env.ENCRYPT_SALT_ROUNDS);
+
 const port = process.env.PORT;
 
 module.exports = {
   mongoUri: uri,
+  saltRounds: saltRounds,
   port,
 };

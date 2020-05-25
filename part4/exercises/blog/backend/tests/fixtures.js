@@ -25,4 +25,12 @@ const blogs = [
   },
 ];
 
-module.exports = { blogs };
+const users = [
+  {
+    name: "nome",
+    username: "utilizador",
+    passwordHash: "hashpw",
+  },
+];
+
+module.exports = { blogs, users };

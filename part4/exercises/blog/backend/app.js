@@ -5,6 +5,7 @@ const errorhandler = require("./middleware/errorhandler");
 const requestlogger = require("./middleware/logger");
 const cors = require("./middleware/cors");
 const blogsRouter = require("./controllers/blogs");
+const usersRouter = require("./controllers/users");
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(requestlogger);
 app.use(cors);
 
 app.use("/api/blogs", blogsRouter);
+app.use("/api/users", usersRouter);
 
 app.use(errorhandler);
 // TODO unhandled endpoint middleware
