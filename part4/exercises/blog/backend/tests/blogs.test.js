@@ -9,17 +9,21 @@ const api = supertest(app);
 
 const fixtures = {
   blogs: fixturesData.blogs,
-  blogIds: [],
   users: fixturesData.users,
 };
 
+let token = "";
+
+beforeAll(async () => {
+  token = await login();
+});
+
 beforeEach(async () => {
   const createBlogs = fixtures.blogs.map((blog) => new Blog(blog).save());
-  const result = await Promise.all(createBlogs);
-  result.forEach((blog, index) => (fixtures.blogIds[index] = blog.id));
+  await Promise.all(createBlogs);
 
   const createUsers = fixtures.users.map((user) => User.create(user));
-  const createUsersResult = await Promise.all(createUsers);
+  await Promise.all(createUsers);
 });
 
 afterEach(async () => {
@@ -45,6 +49,7 @@ describe("creating blogs", () => {
     const response = await api
       .post("/api/blogs")
       .send(blog)
+      .set("Authorization", `Bearer ${token}`)
       .expect(201)
       .expect("Content-Type", /application\/json/);
 
@@ -72,7 +77,11 @@ describe("creating blogs", () => {
       url: "a url",
       likes: 23,
     };
-    await api.post("/api/blogs").send(blog).expect(400);
+    await api
+      .post("/api/blogs")
+      .send(blog)
+      .set("Authorization", `Bearer ${token}`)
+      .expect(400);
   });
 
   test("can't add a blog without url", async () => {
@@ -81,7 +90,11 @@ describe("creating blogs", () => {
       title: "a title",
       likes: 23,
     };
-    await api.post("/api/blogs").send(blog).expect(400);
+    await api
+      .post("/api/blogs")
+      .send(blog)
+      .set("Authorization", `Bearer ${token}`)
+      .expect(400);
   });
 });
 
@@ -99,23 +112,73 @@ describe("reading blogs", () => {
 
 describe("updating blogs", () => {
   test("can update a field", async () => {
-    const id = fixtures.blogIds[0];
+    const blog = await createBlog(aBlog(), token);
+
     const response = await api
-      .put(`/api/blogs/${id}`)
+      .put(`/api/blogs/${blog.id}`)
       .send({ title: "xyz" })
       .expect(200)
       .expect("Content-Type", /application\/json/);
 
-    const blog = response.body;
-    expect(blog.title).toBe("xyz");
+    expect(response.body.title).toBe("xyz");
   });
 });
 
 describe("deleting blogs", () => {
   test("can delete a single blog", async () => {
-    const id = fixtures.blogIds[0];
-    await api.delete(`/api/blogs/${id}`).expect(204);
+    const blog = await createBlog(aBlog(), token);
+    await api
+      .delete(`/api/blogs/${blog.id}`)
+      .set("Authorization", `Bearer ${token}`)
+      .expect(204);
+  });
+
+  test("cannot delete blog if no auth is provided", async () => {
+    const blog = await createBlog(aBlog(), token);
+    await api.delete(`/api/blogs/${blog.id}`).expect(401);
+  });
+
+  test("cannot delete blog if not original creator", async () => {
+    const blog = await createBlog(aBlog(), token);
+
+    const anotherToken = login();
+
+    await api
+      .delete(`/api/blogs/${blog.id}`)
+      .set("Authorization", `Bearer ${anotherToken}`)
+      .expect(401);
   });
 });
 
+const login = async () => {
+  await User.deleteOne({ username: "testuser" });
+  await api.post("/api/users").send({
+    name: "testuser",
+    username: "testuser",
+    password: "testuser",
+  });
+
+  const response = await api
+    .post("/api/login")
+    .send({ username: "testuser", password: "testuser" });
+
+  return response.body.token;
+};
+
 const getAll = async () => await api.get("/api/blogs");
+
+const createBlog = async (blog, token) => {
+  const response = await api
+    .post("/api/blogs")
+    .send(blog)
+    .set("Authorization", `Bearer ${token}`)
+    .expect(201)
+    .expect("Content-Type", /application\/json/);
+  return response.body;
+};
+
+const aBlog = () => ({
+  title: `title ${Math.random()}`,
+  author: `author ${Math.random()}`,
+  url: `url ${Math.random()}`,
+});
