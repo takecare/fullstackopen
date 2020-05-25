@@ -11,11 +11,13 @@ const mongoUri = isTestEnv
 const uri = mongoUri.replace("<password>", mongoPassword);
 
 const saltRounds = parseInt(process.env.ENCRYPT_SALT_ROUNDS);
+const jwtSecret = process.env.JWT_SECRET;
 
 const port = process.env.PORT;
 
 module.exports = {
   mongoUri: uri,
-  saltRounds: saltRounds,
+  saltRounds,
+  jwtSecret,
   port,
 };
