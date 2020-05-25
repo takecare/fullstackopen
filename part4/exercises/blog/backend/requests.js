@@ -52,7 +52,7 @@ const request = http.request(options, (response) => {
   });
 });
 
-if (body) {
+if (body && body.length > 0) {
   request.write(body);
 }
 

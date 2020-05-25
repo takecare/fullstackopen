@@ -1,4 +1,5 @@
 const express = require("express");
+const auth = require("../middleware/auth");
 const authrequired = require("../middleware/authrequired");
 const Blog = require("../models/blog");
 const User = require("../models/user");
@@ -13,8 +14,8 @@ router.get("/", async (req, res) => {
   res.send(result.map((item) => item.toJSON()));
 });
 
+router.post("/", auth);
 router.post("/", authrequired);
-
 router.post("/", async (req, res) => {
   const blog = {
     ...req.body,
@@ -25,9 +26,22 @@ router.post("/", async (req, res) => {
   res.status(201).send(result.toJSON());
 });
 
+router.delete("/:id", auth);
+router.delete("/:id", authrequired);
 router.delete("/:id", async (req, res) => {
-  const id = req.params.id;
-  await Blog.deleteOne({ _id: id });
+  const userId = req.user.id;
+  const blogId = req.params.id;
+
+  const result = await Blog.findOne({ _id: blogId });
+  const blog = result.toJSON();
+  if (blog.user != userId) {
+    throw {
+      name: "Unauthorized",
+      message: "Insufficient permissions.",
+    };
+  }
+
+  await Blog.deleteOne({ _id: blogId });
   res.status(204).end();
 });
 
