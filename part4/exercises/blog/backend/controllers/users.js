@@ -6,7 +6,11 @@ const Model = require("../models/user");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const result = await Model.find({});
+  const result = await Model.find({}).populate("blogs", {
+    title: 1,
+    author: 1,
+    url: 1,
+  });
   res.send(result.map((item) => item.toJSON()));
 });
 

@@ -2,23 +2,29 @@ const fixturesData = require("./fixtures");
 const supertest = require("supertest");
 const mongoose = require("mongoose");
 const Blog = require("../models/blog");
+const User = require("../models/user");
 const app = require("../app");
 
 const api = supertest(app);
 
 const fixtures = {
   blogs: fixturesData.blogs,
-  ids: [],
+  blogIds: [],
+  users: fixturesData.users,
 };
 
 beforeEach(async () => {
   const createBlogs = fixtures.blogs.map((blog) => new Blog(blog).save());
   const result = await Promise.all(createBlogs);
-  result.forEach((blog, index) => (fixtures.ids[index] = blog.id));
+  result.forEach((blog, index) => (fixtures.blogIds[index] = blog.id));
+
+  const createUsers = fixtures.users.map((user) => User.create(user));
+  const createUsersResult = await Promise.all(createUsers);
 });
 
 afterEach(async () => {
   await Blog.deleteMany({});
+  await User.deleteMany({});
 });
 
 afterAll(() => {
@@ -93,7 +99,7 @@ describe("reading blogs", () => {
 
 describe("updating blogs", () => {
   test("can update a field", async () => {
-    const id = fixtures.ids[0];
+    const id = fixtures.blogIds[0];
     const response = await api
       .put(`/api/blogs/${id}`)
       .send({ title: "xyz" })
@@ -107,7 +113,7 @@ describe("updating blogs", () => {
 
 describe("deleting blogs", () => {
   test("can delete a single blog", async () => {
-    const id = fixtures.ids[0];
+    const id = fixtures.blogIds[0];
     await api.delete(`/api/blogs/${id}`).expect(204);
   });
 });
