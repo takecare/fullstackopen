@@ -5,6 +5,9 @@ const User = require("../models/user");
 const config = require("../utils/config");
 const router = express.Router();
 
+// https://www.npmjs.com/package/jsonwebtoken
+// https://gist.github.com/ziluvatar/a3feb505c4c0ec37059054537b38fc48
+
 router.post("/", async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
@@ -25,7 +28,8 @@ router.post("/", async (req, res) => {
 
   const token = jwt.sign(
     { username: username, id: user._id },
-    config.jwtSecret
+    config.jwtSecret,
+    { expiresIn: "7 days" }
   );
   res.status(200).send({ token: token, username: user.username });
 });
