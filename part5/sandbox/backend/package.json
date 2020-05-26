@@ -1,0 +1,32 @@
+{
+  "name": "sandbox",
+  "version": "0.0.1",
+  "description": "part 5",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=production; node --inspect index.js",
+    "dev": "NODE_ENV=development; nodemon index.js",
+    "build:fe": "rm -rf build && cd ../frontend && yarn build && cp -r build ../backend",
+    "deploy": "git push heroku master",
+    "deploy:full": "npm run build:fe && git add . && git commit -m 'build frontend' && npm run deploy",
+    "logs:prod": "heroku logs --tail",
+    "test": "NODE_ENV=test; jest --verbose --runInBand",
+    "lint": "eslint ."
+  },
+  "author": "takecare",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^4.0.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.14",
+    "mongoose-unique-validator": "^2.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^7.0.0",
+    "jest": "^26.0.1",
+    "nodemon": "^2.0.3",
+    "supertest": "^4.0.2"
+  }
+}
