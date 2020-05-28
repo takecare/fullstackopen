@@ -1,23 +1,25 @@
 import axios from "axios";
-const baseUrl = `${process.env.REACT_APP_API_BASE_URL}/api/notes`;
+import { baseUrl } from "./config";
+const endpoint = `${baseUrl}/api/notes`;
 
 const read = (id) => {
-  const original = axios.get(`${baseUrl}/${id ? id : ""}`);
+  const response = axios.get(`${endpoint}/${id ? id : ""}`);
   return new Promise((resolve, reject) =>
-    original.then((response) => resolve(response.data)).catch(reject)
+    response.then((response) => resolve(response.data)).catch(reject)
   );
 };
 
-const create = (note) => {
-  return axios.post(baseUrl, note).then((response) => response.data);
+const create = (note, token) => {
+  const config = { headers: { authorization: `bearer ${token}` } };
+  return axios.post(endpoint, note, config).then((response) => response.data);
 };
 
 const update = (note) => {
-  return axios.put(`${baseUrl}/${note.id}`, note);
+  return axios.put(`${endpoint}/${note.id}`, note);
 };
 
 const remove = (id) => {
-  return axios.delete(`${baseUrl}/${id}`);
+  return axios.delete(`${endpoint}/${id}`);
 };
 
 export default {

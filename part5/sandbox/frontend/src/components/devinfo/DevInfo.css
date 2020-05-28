@@ -1,0 +1,17 @@
+.debug {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 0.1em;
+  border: 0.1em solid #777777;
+  font-size: 1em;
+}
+
+.debug:hover {
+  bottom: -1.2em;
+}
+
+.prod {
+  width: 0;
+  height: 0;
+}
