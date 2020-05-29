@@ -3,7 +3,10 @@ import React from "react";
 const Blog = ({ blog }) => {
   return (
     <div>
-      "{blog.title}" by {blog.author}
+      <span>
+        "{blog.title}" by {blog.author},&nbsp;
+      </span>
+      <a href={blog.url}>{blog.url}</a>
     </div>
   );
 };
