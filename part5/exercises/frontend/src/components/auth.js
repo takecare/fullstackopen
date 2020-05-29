@@ -2,14 +2,14 @@ import React from "react";
 import Login from "./login";
 import Logout from "./logout";
 
-const Auth = ({ user, handleLogin, handleLogout }) => {
+const Auth = ({ user, onLogin, onLogout }) => {
   return user ? (
     <>
       <div>{user.username}</div>
-      <Logout handleLogout={handleLogout} />
+      <Logout onLogout={onLogout} />
     </>
   ) : (
-    <Login handleLogin={handleLogin} />
+    <Login onLogin={onLogin} />
   );
 };
 

@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import loginService from "./services/login";
+import blogService from "./services/blog";
 import localStorage from "./services/localstorage";
 import Auth from "./components/auth";
 import Blogs from "./components/blogs";
+import NewBlog from "./components/newblog";
 import "./App.css";
 
 function App() {
   const [user, setUser] = useState(null);
+  const [blogs, setBlogs] = useState([]);
 
   const loadUserEffect = () => {
     const user = localStorage.read("user");
@@ -15,6 +18,19 @@ function App() {
     }
   };
   useEffect(loadUserEffect, []);
+
+  const getBlogsEffect = () => {
+    const getBlogs = async () => {
+      try {
+        const fetchedBlogs = await blogService.read();
+        setBlogs(fetchedBlogs);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getBlogs();
+  };
+  useEffect(getBlogsEffect, []);
 
   const handleLogin = async (username, password) => {
     try {
@@ -31,11 +47,23 @@ function App() {
     localStorage.remove("user");
   };
 
+  const handleBlogAdded = (blog) => {
+    setBlogs(blogs.concat(blog));
+  };
+
+  const newBlogComponent = user != null && (
+    <>
+      <h3>add new blog</h3>
+      <NewBlog user={user} onBlogAdded={handleBlogAdded} />
+    </>
+  );
+
   return (
     <div>
       <h3>blogs</h3>
-      <Auth user={user} handleLogin={handleLogin} handleLogout={handleLogout} />
-      <Blogs user={user} />
+      <Auth user={user} onLogin={handleLogin} onLogout={handleLogout} />
+      <Blogs user={user} blogs={blogs} />
+      {newBlogComponent}
     </div>
   );
 }
