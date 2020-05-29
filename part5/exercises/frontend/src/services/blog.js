@@ -37,7 +37,20 @@ const read = async (id) => {
   return response.json();
 };
 
-const remove = async (id) => {};
+const remove = async (id, user) => {
+  const options = {
+    method: "DELETE",
+    mode: "cors",
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+    },
+  };
+  const response = await fetch(`${endpoint}/${id}`, options);
+  if (!response.ok) {
+    const body = await response.json();
+    throw Error(`${response.status} ${body.error}`);
+  }
+};
 
 export default {
   create,

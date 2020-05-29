@@ -11,7 +11,8 @@ import "./App.css";
 function App() {
   const [user, setUser] = useState(null);
   const [blogs, setBlogs] = useState([]);
-  const [notification, setNotification] = useState("");
+  const [notification, setNotification] = useState(null);
+  const [storedTimeout, saveTimeout] = useState(null);
 
   const loadUserEffect = () => {
     const user = localStorage.read("user");
@@ -41,6 +42,7 @@ function App() {
       setUser(user);
     } catch (error) {
       console.error(error);
+      displayError("Could not login");
     }
   };
 
@@ -51,29 +53,57 @@ function App() {
 
   const handleBlogAdded = (blog) => {
     setBlogs(blogs.concat(blog));
-    setNotification("added");
+    displayMessage(`Added "${blog.title}"`);
   };
 
-  const handleNotificationHidden = () => {
-    setNotification("");
+  const handleDeleteClicked = async (blog) => {
+    try {
+      await blogService.remove(blog.id, user);
+      setBlogs(blogs.filter((item) => blog.id !== item.id));
+    } catch (error) {
+      displayError("Could not delete blog");
+    }
+  };
+
+  const handleFailToAdd = () => {
+    displayError("Could not add blog");
+  };
+
+  const displayError = (text) => {
+    displayNotification(text, true);
+  };
+
+  const displayMessage = (text) => {
+    displayNotification(text, false);
+  };
+
+  const displayNotification = (message, isError) => {
+    clearTimeout(storedTimeout);
+    const timeout = setTimeout(() => {
+      saveTimeout(null);
+      setNotification(null);
+    }, 5000);
+    saveTimeout(timeout);
+    setNotification({ message, isError });
   };
 
   const newBlogComponent = user != null && (
     <>
       <h3>add new blog</h3>
-      <NewBlog user={user} onBlogAdded={handleBlogAdded} />
+      <NewBlog
+        user={user}
+        onBlogAdded={handleBlogAdded}
+        onFailToAdd={handleFailToAdd}
+      />
     </>
   );
 
   return (
     <div>
       <h3>blogs</h3>
-      <Notification
-        message={notification}
-        onHidden={handleNotificationHidden}
-      />
+      <Notification notification={notification} />
       <Auth user={user} onLogin={handleLogin} onLogout={handleLogout} />
-      <Blogs user={user} blogs={blogs} />
+      <Blogs user={user} blogs={blogs} onDeleteClicked={handleDeleteClicked} />
       {newBlogComponent}
     </div>
   );

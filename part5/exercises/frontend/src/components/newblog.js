@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import blogService from "../services/blog";
 
-const NewBlog = ({ user, onBlogAdded }) => {
+const NewBlog = ({ user, onBlogAdded, onFailToAdd }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
@@ -15,7 +15,7 @@ const NewBlog = ({ user, onBlogAdded }) => {
       setUrl("");
       onBlogAdded(newBlog);
     } catch (error) {
-      //
+      onFailToAdd(error);
     }
   };
 
