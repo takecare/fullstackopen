@@ -14,10 +14,13 @@ const NewNote = ({ handleAddNote }) => {
   };
 
   return (
-    <form onSubmit={handleAddNoteInternal}>
-      <input value={note} onChange={handleNoteChange} />
-      <button type="submit">save</button>
-    </form>
+    <div>
+      <h4>add new note</h4>
+      <form onSubmit={handleAddNoteInternal}>
+        <input value={note} onChange={handleNoteChange} />
+        <button type="submit">save</button>
+      </form>
+    </div>
   );
 };
 

@@ -6,6 +6,7 @@ import Logout from "./components/Logout";
 import Notification from "./components/Notification";
 import Note from "./components/Note";
 import NewNote from "./components/NewNote";
+import Toggable from "./components/Toggable";
 import DevInfo from "./components/devinfo/DevInfo";
 import "./App.css";
 
@@ -34,12 +35,12 @@ const App = (props) => {
   useEffect(loadUserEffect, []);
 
   const addNote = (note) => {
+    newNoteRef.current.toggleVisibility();
     const noteObject = {
       content: note,
       date: new Date().toISOString(),
       important: Math.random() < 0.5,
     };
-
     noteService
       .create(noteObject, user.token)
       .then((note) => setNotes(notes.concat(note)))
@@ -100,13 +101,23 @@ const App = (props) => {
 
   const authComponent = () =>
     user === null ? (
-      <Login handleLogin={handleLogin} />
+      <Toggable label="login">
+        <Login handleLogin={handleLogin} />
+      </Toggable>
     ) : (
       <Logout user={user} handleLogout={handleLogout} />
     );
 
-  const addNoteComponent = () =>
-    user != null && <NewNote handleAddNote={addNote} />;
+  const newNoteRef = React.createRef();
+  const addNoteComponent = () => {
+    return (
+      user != null && (
+        <Toggable label="new note" ref={newNoteRef}>
+          <NewNote handleAddNote={addNote} />
+        </Toggable>
+      )
+    );
+  };
 
   return (
     <div>
