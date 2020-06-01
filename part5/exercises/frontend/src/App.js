@@ -87,24 +87,17 @@ function App() {
     setNotification({ message, isError });
   };
 
-  const newBlogComponent = user != null && (
-    <>
-      <h3>add new blog</h3>
-      <NewBlog
-        user={user}
-        onBlogAdded={handleBlogAdded}
-        onFailToAdd={handleFailToAdd}
-      />
-    </>
-  );
-
   return (
     <div>
       <h3>blogs</h3>
       <Notification notification={notification} />
       <Auth user={user} onLogin={handleLogin} onLogout={handleLogout} />
       <Blogs user={user} blogs={blogs} onDeleteClicked={handleDeleteClicked} />
-      {newBlogComponent}
+      <NewBlog
+        user={user}
+        onBlogAdded={handleBlogAdded}
+        onFailToAdd={handleFailToAdd}
+      />
     </div>
   );
 }

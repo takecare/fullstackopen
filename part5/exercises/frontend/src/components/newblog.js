@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Toggleable from "./toggleable";
 import blogService from "../services/blog";
 
 const NewBlog = ({ user, onBlogAdded, onFailToAdd }) => {
@@ -23,41 +24,46 @@ const NewBlog = ({ user, onBlogAdded, onFailToAdd }) => {
   const handleAuthorChange = (event) => setAuthor(event.target.value);
   const handleUrlChange = (event) => setUrl(event.target.value);
 
-  return (
-    <form onSubmit={addBlog}>
-      <div>
-        <label htmlFor="title">title</label>
-        <input
-          name="title"
-          id="title"
-          type="text"
-          value={title}
-          onChange={handleTitleChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="author">author</label>
-        <input
-          name="author"
-          id="author"
-          type="text"
-          value={author}
-          onChange={handleAuthorChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="url">url</label>
-        <input
-          name="url"
-          id="url"
-          type="text"
-          value={url}
-          onChange={handleUrlChange}
-        />
-      </div>
-      <button type="submit">create</button>
-    </form>
+  const component = (
+    <Toggleable label="new blog">
+      <h3>add new blog</h3>
+      <form onSubmit={addBlog}>
+        <div>
+          <label htmlFor="title">title</label>
+          <input
+            name="title"
+            id="title"
+            type="text"
+            value={title}
+            onChange={handleTitleChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="author">author</label>
+          <input
+            name="author"
+            id="author"
+            type="text"
+            value={author}
+            onChange={handleAuthorChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="url">url</label>
+          <input
+            name="url"
+            id="url"
+            type="text"
+            value={url}
+            onChange={handleUrlChange}
+          />
+        </div>
+        <button type="submit">create</button>
+      </form>
+    </Toggleable>
   );
+
+  return user != null ? component : <></>;
 };
 
 export default NewBlog;
