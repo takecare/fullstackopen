@@ -3,21 +3,14 @@ import React, { useState } from "react";
 const hiddenStyle = { display: "none" };
 const visibleStyle = {};
 
-const Toggleable = ({ label, children }) => {
+const Toggleable = ({ showLabel, hideLabel, children }) => {
   const [hidden, setHiden] = useState(true);
-
   return (
     <>
-      <button
-        style={hidden ? visibleStyle : hiddenStyle}
-        onClick={() => setHiden(false)}
-      >
-        {label || "show"}
+      <button onClick={() => setHiden(!hidden)}>
+        {hidden ? showLabel || "show" : hideLabel || "hide"}
       </button>
-      <div style={hidden ? hiddenStyle : visibleStyle}>
-        {children}
-        <button onClick={() => setHiden(true)}>cancel</button>
-      </div>
+      <div style={hidden ? hiddenStyle : visibleStyle}>{children}</div>
     </>
   );
 };

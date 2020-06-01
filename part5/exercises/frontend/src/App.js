@@ -56,6 +56,8 @@ function App() {
     displayMessage(`Added "${blog.title}"`);
   };
 
+  const handleLikeClicked = (blog) => {};
+
   const handleDeleteClicked = async (blog) => {
     try {
       await blogService.remove(blog.id, user);
@@ -92,7 +94,12 @@ function App() {
       <h3>blogs</h3>
       <Notification notification={notification} />
       <Auth user={user} onLogin={handleLogin} onLogout={handleLogout} />
-      <Blogs user={user} blogs={blogs} onDeleteClicked={handleDeleteClicked} />
+      <Blogs
+        user={user}
+        blogs={blogs}
+        onLikeClicked={handleLikeClicked}
+        onDeleteClicked={handleDeleteClicked}
+      />
       <NewBlog
         user={user}
         onBlogAdded={handleBlogAdded}

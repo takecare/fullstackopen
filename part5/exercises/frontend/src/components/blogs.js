@@ -1,11 +1,18 @@
 import React from "react";
 import Blog from "./blog";
 
-const Blogs = ({ blogs, onDeleteClicked }) => {
+const Blogs = ({ blogs, onLikeClicked, onDeleteClicked }) => {
   return (
-    <div>
+    <div style={{ margin: "0.8em" }}>
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} onDeleteClicked={onDeleteClicked} />
+        <div>
+          <Blog
+            key={blog.id}
+            blog={blog}
+            onLikeClicked={onLikeClicked}
+            onDeleteClicked={onDeleteClicked}
+          />
+        </div>
       ))}
     </div>
   );
