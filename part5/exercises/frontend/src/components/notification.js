@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const notificationStyle = {
   margin: "0.3em",
@@ -18,6 +19,13 @@ const Notification = ({ notification }) => {
   const { message, isError } = notification;
   const style = isError ? errorStyle : notificationStyle;
   return <div style={style}>{message}</div>;
+};
+
+Notification.propTypes = {
+  notification: PropTypes.exact({
+    message: PropTypes.string.isRequired,
+    isError: PropTypes.bool.isRequired,
+  }),
 };
 
 export default Notification;
