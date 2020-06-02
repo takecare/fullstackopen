@@ -8,6 +8,16 @@ import NewBlog from "./components/newblog";
 import Notification from "./components/notification";
 import "./App.css";
 
+const blogsSorter = (aBlog, anotherBlog) => {
+  if (aBlog.likes > anotherBlog.likes) {
+    return -1;
+  } else if (aBlog.likes === anotherBlog.likes) {
+    return 0;
+  } else {
+    return 1;
+  }
+};
+
 function App() {
   const [user, setUser] = useState(null);
   const [blogs, setBlogs] = useState([]);
@@ -26,7 +36,7 @@ function App() {
     const getBlogs = async () => {
       try {
         const fetchedBlogs = await blogService.read();
-        setBlogs(fetchedBlogs);
+        setBlogs(fetchedBlogs.sort(blogsSorter));
       } catch (error) {
         console.error(error);
       }
@@ -63,9 +73,10 @@ function App() {
     };
     try {
       const updatedBlog = await blogService.update(updated, user);
-      setBlogs(
-        blogs.map((blog) => (blog.id === updatedBlog.id ? updatedBlog : blog))
-      );
+      const updatedBlogs = blogs
+        .map((blog) => (blog.id === updatedBlog.id ? updatedBlog : blog))
+        .sort(blogsSorter);
+      setBlogs(updatedBlogs);
     } catch (error) {
       displayError("Could not like blog");
     }
