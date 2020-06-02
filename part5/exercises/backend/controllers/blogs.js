@@ -2,7 +2,6 @@ const express = require("express");
 const auth = require("../middleware/auth");
 const authrequired = require("../middleware/authrequired");
 const Blog = require("../models/blog");
-const User = require("../models/user");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -50,7 +49,11 @@ router.put("/:id", authrequired);
 router.put("/:id", async (req, res) => {
   const id = req.params.id;
   const data = { likes: req.body.likes };
-  const result = await Blog.findOneAndUpdate({ _id: id }, data, { new: true });
+  const result = await Blog.findOneAndUpdate({ _id: id }, data, { new: true }).populate("user", {
+    username: 1,
+    id: 1,
+    name: 1,
+  });
   res.status(200).send(result.toJSON());
 });
 
