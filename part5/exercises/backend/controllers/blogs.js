@@ -45,9 +45,11 @@ router.delete("/:id", async (req, res) => {
   res.status(204).end();
 });
 
+router.put("/:id", auth);
+router.put("/:id", authrequired);
 router.put("/:id", async (req, res) => {
   const id = req.params.id;
-  const data = req.body;
+  const data = { likes: req.body.likes };
   const result = await Blog.findOneAndUpdate({ _id: id }, data, { new: true });
   res.status(200).send(result.toJSON());
 });

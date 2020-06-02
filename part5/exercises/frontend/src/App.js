@@ -56,7 +56,20 @@ function App() {
     displayMessage(`Added "${blog.title}"`);
   };
 
-  const handleLikeClicked = (blog) => {};
+  const handleLikeClicked = async (blog) => {
+    const updated = {
+      ...blog,
+      likes: blog.likes + 1,
+    };
+    try {
+      const updatedBlog = await blogService.update(updated, user);
+      setBlogs(
+        blogs.map((blog) => (blog.id === updatedBlog.id ? updatedBlog : blog))
+      );
+    } catch (error) {
+      displayError("Could not like blog");
+    }
+  };
 
   const handleDeleteClicked = async (blog) => {
     try {

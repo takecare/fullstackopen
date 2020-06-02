@@ -19,7 +19,23 @@ const create = async (blog, user) => {
   return response.json();
 };
 
-const update = async (blog) => {};
+const update = async (blog, user) => {
+  const options = {
+    method: "PUT",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${user.token}`,
+    },
+    body: JSON.stringify(blog),
+  };
+  const response = await fetch(`${endpoint}/${blog.id}`, options);
+  if (!response.ok) {
+    const body = await response.json();
+    throw Error(`${response.status} ${body.error}`);
+  }
+  return response.json();
+};
 
 const read = async (id) => {
   const options = {

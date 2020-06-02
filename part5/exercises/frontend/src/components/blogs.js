@@ -5,9 +5,8 @@ const Blogs = ({ blogs, onLikeClicked, onDeleteClicked }) => {
   return (
     <div style={{ margin: "0.8em" }}>
       {blogs.map((blog) => (
-        <div>
+        <div key={blog.id}>
           <Blog
-            key={blog.id}
             blog={blog}
             onLikeClicked={onLikeClicked}
             onDeleteClicked={onDeleteClicked}

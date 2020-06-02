@@ -7,6 +7,7 @@ const connect = () =>
     .connect(config.mongoUri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useFindAndModify: false,
     })
     .then(() => logger.info("MongoDB connected."))
     .catch((error) => logger.error("MongoDB failed to connect: ", error));
