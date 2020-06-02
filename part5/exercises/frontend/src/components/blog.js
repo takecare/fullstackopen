@@ -7,7 +7,20 @@ const blogStyle = {
   borderWidth: 1,
 };
 
-const Blog = ({ blog, onLikeClicked, onDeleteClicked }) => {
+const Blog = ({ blog, user, onLikeClicked, onDeleteClicked }) => {
+  const onDeleteClickedInternal = (blog) => {
+    const result = window.confirm(`Remove blog "${blog.title}"?`);
+    if (result) {
+      onDeleteClicked(blog);
+    }
+  };
+
+  const deleteButton = (
+    <div>
+      <button onClick={() => onDeleteClickedInternal(blog)}>delete</button>
+    </div>
+  );
+
   return (
     <div style={blogStyle}>
       <span>{blog.title}</span>
@@ -20,9 +33,7 @@ const Blog = ({ blog, onLikeClicked, onDeleteClicked }) => {
           {blog.likes} likes
           <button onClick={() => onLikeClicked(blog)}>like</button>
         </div>
-        <div>
-          <button onClick={() => onDeleteClicked(blog)}>delete</button>
-        </div>
+        {user.id === blog.user.id ? deleteButton : <></>}
       </Toggleable>
     </div>
   );
