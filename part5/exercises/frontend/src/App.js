@@ -73,9 +73,10 @@ function App() {
     };
     try {
       const updatedBlog = await blogService.update(updated, user);
-      const updatedBlogs = blogs
-        .map((blog) => (blog.id === updatedBlog.id ? updatedBlog : blog))
-        .sort(blogsSorter);
+      const updatedBlogs = blogs.map((blog) => (blog.id === updatedBlog.id ? updatedBlog : blog)).sort(blogsSorter);
+
+      console.log(updatedBlogs);
+
       setBlogs(updatedBlogs);
     } catch (error) {
       displayError("Could not like blog");
@@ -118,17 +119,8 @@ function App() {
       <h3>blogs</h3>
       <Notification notification={notification} />
       <Auth user={user} onLogin={handleLogin} onLogout={handleLogout} />
-      <Blogs
-        user={user}
-        blogs={blogs}
-        onLikeClicked={handleLikeClicked}
-        onDeleteClicked={handleDeleteClicked}
-      />
-      <NewBlog
-        user={user}
-        onBlogAdded={handleBlogAdded}
-        onFailToAdd={handleFailToAdd}
-      />
+      <Blogs user={user} blogs={blogs} onLikeClicked={handleLikeClicked} onDeleteClicked={handleDeleteClicked} />
+      <NewBlog user={user} onBlogAdded={handleBlogAdded} onFailToAdd={handleFailToAdd} />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Toggleable from "./toggleable";
 import blogService from "../services/blog";
 
@@ -6,6 +6,8 @@ const NewBlog = ({ user, onBlogAdded, onFailToAdd }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
+
+  const toggleableRef = useRef();
 
   const addBlog = async (event) => {
     event.preventDefault();
@@ -15,6 +17,7 @@ const NewBlog = ({ user, onBlogAdded, onFailToAdd }) => {
       setAuthor("");
       setUrl("");
       onBlogAdded(newBlog);
+      toggleableRef.current.toggle();
     } catch (error) {
       onFailToAdd(error);
     }
@@ -25,7 +28,7 @@ const NewBlog = ({ user, onBlogAdded, onFailToAdd }) => {
   const handleUrlChange = (event) => setUrl(event.target.value);
 
   const component = (
-    <Toggleable showLabel="new blog">
+    <Toggleable showLabel="new blog" ref={toggleableRef}>
       <h3>add new blog</h3>
       <form onSubmit={addBlog}>
         <div>

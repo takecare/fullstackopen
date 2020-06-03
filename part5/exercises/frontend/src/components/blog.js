@@ -21,6 +21,9 @@ const Blog = ({ blog, user, onLikeClicked, onDeleteClicked }) => {
     </div>
   );
 
+  // TODO use context api to provide the "user" instead of passing it all
+  // the way down here
+
   return (
     <div style={blogStyle}>
       <span>{blog.title}</span>
@@ -33,7 +36,7 @@ const Blog = ({ blog, user, onLikeClicked, onDeleteClicked }) => {
           {blog.likes} likes
           <button onClick={() => onLikeClicked(blog)}>like</button>
         </div>
-        {user.id === blog.user.id ? deleteButton : <></>}
+        {user && user.username === blog.user.username ? deleteButton : <></>}
       </Toggleable>
     </div>
   );
