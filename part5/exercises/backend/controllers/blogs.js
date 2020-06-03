@@ -2,14 +2,17 @@ const express = require("express");
 const auth = require("../middleware/auth");
 const authrequired = require("../middleware/authrequired");
 const Blog = require("../models/blog");
+const User = require("../models/user");
 const router = express.Router();
 
+const populateUserOpts = {
+  username: 1,
+  id: 1,
+  name: 1,
+};
+
 router.get("/", async (req, res) => {
-  const result = await Blog.find({}).populate("user", {
-    username: 1,
-    id: 1,
-    name: 1,
-  });
+  const result = await Blog.find({}).populate("user", populateUserOpts);
   res.send(result.map((item) => item.toJSON()));
 });
 
@@ -22,7 +25,15 @@ router.post("/", async (req, res) => {
   };
 
   const result = await Blog.create(blog);
-  res.status(201).send(result.toJSON());
+
+  const user = await User.findOne({ _id: req.user.id });
+  user.blogs = user.blogs.concat(result._id);
+  await user.save();
+
+  // cannot find a way of using populateUserOpts (even after reading docs):
+  const newBlog = await result.populate("user").execPopulate();
+
+  res.status(201).send(newBlog.toJSON());
 });
 
 router.delete("/:id", auth);

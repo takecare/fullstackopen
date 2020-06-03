@@ -39,6 +39,7 @@ router.post("/", async (req, res) => {
     name: body.name,
     username: body.username,
     passwordHash: passwordHash,
+    blogs: [],
   });
 
   res.status(201).send(result.toJSON());
