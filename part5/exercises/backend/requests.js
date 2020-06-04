@@ -44,7 +44,7 @@ const request = http.request(options, (response) => {
   });
   response.on("end", () => {
     const body = buffer.toString();
-    const result = body.match(/"token"\:"(.*)",/);
+    const result = body.match(/"token":"(.*)",/);
     if (result) {
       // token = result[0];
     }

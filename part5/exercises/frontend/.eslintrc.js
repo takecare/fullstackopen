@@ -2,9 +2,14 @@ module.exports = {
   env: {
     browser: true,
     es6: true,
+    node: true,
     "jest/globals": true,
   },
-  extends: ["eslint:recommended", "plugin:react/recommended"],
+  extends: [
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "plugin:react/recommended",
+  ],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -12,7 +17,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: "module",
   },
-  plugins: ["react", "jest"],
+  plugins: ["react", "react-hooks", "jest"],
   rules: {
     indent: ["error", 2],
     "linebreak-style": ["error", "unix"],
@@ -24,5 +29,12 @@ module.exports = {
     "arrow-spacing": ["error", { before: true, after: true }],
     "no-console": 0,
     "react/prop-types": 0,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+  },
+  settings: {
+    react: {
+      version: "latest",
+    },
   },
 };

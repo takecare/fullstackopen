@@ -60,7 +60,9 @@ router.put("/:id", authrequired);
 router.put("/:id", async (req, res) => {
   const id = req.params.id;
   const data = { likes: req.body.likes };
-  const result = await Blog.findOneAndUpdate({ _id: id }, data, { new: true }).populate("user", {
+  const result = await Blog.findOneAndUpdate({ _id: id }, data, {
+    new: true,
+  }).populate("user", {
     username: 1,
     id: 1,
     name: 1,

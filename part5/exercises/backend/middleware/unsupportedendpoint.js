@@ -1,4 +1,4 @@
-const unsupportedEndpoint = (req, res, next) => {
+const unsupportedEndpoint = (_req, res) => {
   res.status(404).json({ error: "Unsupported endpoint" });
 };
 

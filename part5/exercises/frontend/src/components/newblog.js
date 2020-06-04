@@ -33,15 +33,33 @@ const NewBlog = ({ user, onBlogAdded, onFailToAdd }) => {
       <form onSubmit={addBlog}>
         <div>
           <label htmlFor="title">title</label>
-          <input name="title" id="title" type="text" value={title} onChange={handleTitleChange} />
+          <input
+            name="title"
+            id="title"
+            type="text"
+            value={title}
+            onChange={handleTitleChange}
+          />
         </div>
         <div>
           <label htmlFor="author">author</label>
-          <input name="author" id="author" type="text" value={author} onChange={handleAuthorChange} />
+          <input
+            name="author"
+            id="author"
+            type="text"
+            value={author}
+            onChange={handleAuthorChange}
+          />
         </div>
         <div>
           <label htmlFor="url">url</label>
-          <input name="url" id="url" type="text" value={url} onChange={handleUrlChange} />
+          <input
+            name="url"
+            id="url"
+            type="text"
+            value={url}
+            onChange={handleUrlChange}
+          />
         </div>
         <button type="submit">create</button>
       </form>

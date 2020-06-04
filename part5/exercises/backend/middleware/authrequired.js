@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken");
 const config = require("../utils/config");
 
-const authorizationRequired = async (req, res, next) => {
+/* eslint-disable require-atomic-updates */
+const authorizationRequired = async (req, _res, next) => {
   const decoded = await jwt.verify(req.token, config.jwtSecret);
   req.user = {
     username: decoded.username,

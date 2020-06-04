@@ -1,4 +1,3 @@
-const fixtures = require("./fixtures").blogs;
 const mongoose = require("../utils/mongoose");
 const Blog = require("../models/blog");
 

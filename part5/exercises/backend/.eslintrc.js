@@ -6,7 +6,7 @@ module.exports = {
     node: true,
     "jest/globals": true,
   },
-  extends: "eslint:recommended",
+  extends: ["eslint:recommended", "plugin:prettier/recommended"],
   globals: {
     Atomics: "readonly",
     SharedArrayBuffer: "readonly",

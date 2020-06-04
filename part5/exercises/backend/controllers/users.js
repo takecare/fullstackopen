@@ -14,10 +14,6 @@ router.get("/", async (req, res) => {
   res.send(result.map((item) => item.toJSON()));
 });
 
-router.get("/:id", async (req, res) => {
-  // TODO return user
-});
-
 router.post("/", async (req, res) => {
   const body = req.body;
 

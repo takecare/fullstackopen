@@ -1,4 +1,4 @@
-const dumb = (blogs) => 1;
+const dumb = () => 1;
 
 const totalLikes = (blogs) => {
   return blogs.map((blog) => blog.likes).reduce((acc, likes) => likes + acc, 0);
@@ -7,7 +7,7 @@ const totalLikes = (blogs) => {
 const favoriteBlog = (blogs) => {
   let max = 0;
   let fav = {};
-  for (blog of blogs) {
+  for (const blog of blogs) {
     if (blog.likes > max) {
       fav = blog;
       max = blog.likes;
