@@ -32,7 +32,8 @@ router.post("/", async (req, res, next) => {
 });
 
 router.delete("/:id", async (req, res) => {
-  // TODO
+  await User.findByIdAndRemove(req.params.id);
+  res.status(204).end();
 });
 
 router.put("/:id", async (req, res) => {

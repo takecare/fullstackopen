@@ -1,10 +1,20 @@
 const mongoose = require("mongoose");
 const supertest = require("supertest");
 const Note = require("../models/note");
+const User = require("../models/user");
 const app = require("../app");
 const notes = require("./fixtures").notes;
 
 const api = supertest(app);
+
+let user;
+
+beforeAll(async () => {
+  const response = await api
+    .post("/api/users")
+    .send({ username: "testuser", name: "test", password: "password" });
+  user = response.body;
+});
 
 beforeEach(async () => {
   await Note.deleteMany({});
@@ -53,7 +63,7 @@ describe("fetching notes", () => {
 
 describe("adding notes", () => {
   test("a valid note is added", async () => {
-    // this test isn't great as we're relying on creating a new note every time
+    const token = await login();
 
     const body = {
       content: "a new note",
@@ -63,6 +73,7 @@ describe("adding notes", () => {
 
     await api
       .post("/api/notes")
+      .set("Authorization", `Bearer ${token}`)
       .send(body)
       .expect(201)
       .expect("Content-Type", /application\/json/);
@@ -75,9 +86,15 @@ describe("adding notes", () => {
   });
 
   test("empty note can't be added", async () => {
+    const token = await login();
+
     const newNote = { important: false };
 
-    await api.post("/api/notes").send(newNote).expect(400);
+    await api
+      .post("/api/notes")
+      .set("Authorization", `Bearer ${token}`)
+      .send(newNote)
+      .expect(400);
   });
 });
 
@@ -105,6 +122,15 @@ describe("updating a note", () => {
   });
 });
 
-afterAll(() => {
+const login = async () => {
+  const loginResponse = await api
+    .post("/api/login")
+    .send({ username: "testuser", password: "password" });
+  console.log("> logged in: ", loginResponse.body.token);
+  return loginResponse.body.token;
+};
+
+afterAll(async () => {
+  await User.findByIdAndRemove(user.id);
   mongoose.connection.close();
 });

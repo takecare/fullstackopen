@@ -48,8 +48,6 @@ router.post("/", async (req, res, next) => {
     return res.status(401).json({ error: "token missing or invalid" });
   }
 
-  console.log("user", decodedToken);
-
   let user;
   try {
     user = await User.findById(decodedToken.id);

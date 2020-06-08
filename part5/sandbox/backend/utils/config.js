@@ -8,9 +8,15 @@ const mongoTestUrl = process.env.MONGODB_TEST_URI.replace(
 );
 const port = process.env.PORT;
 
-const mongoUrl = process.env.NODE_ENV === "test" ? mongoTestUrl : mongoProdUrl;
+const isTestEnv = process.env.NODE_ENV === "test";
+
+const mongoUrl = isTestEnv ? mongoTestUrl : mongoProdUrl;
+
+const jwtSecret = process.env.JWT_SECRET;
 
 module.exports = {
+  isTestEnv,
+  jwtSecret,
   mongoUrl,
   port,
 };
