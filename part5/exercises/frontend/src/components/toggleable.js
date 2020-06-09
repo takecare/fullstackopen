@@ -11,12 +11,17 @@ const Toggleable = React.forwardRef(
       hidden,
     ]);
     return (
-      <>
+      <div className="toggleable">
         <button onClick={() => setHiden(!hidden)}>
           {hidden ? showLabel || "show" : hideLabel || "hide"}
         </button>
-        <div style={hidden ? hiddenStyle : visibleStyle}>{children}</div>
-      </>
+        <div
+          className="toggleable-content"
+          style={hidden ? hiddenStyle : visibleStyle}
+        >
+          {children}
+        </div>
+      </div>
     );
   }
 );

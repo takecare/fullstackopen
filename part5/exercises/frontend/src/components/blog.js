@@ -29,10 +29,10 @@ const Blog = ({ blog, user, onLikeClicked, onDeleteClicked }) => {
       <span className="title">{blog.title}</span>
       <span className="author"> by {blog.author}</span>
       <Toggleable showLabel="details" hideLabel="hide">
-        <div>
+        <div className="url">
           <a href={blog.url}>{blog.url}</a>
         </div>
-        <div>
+        <div className="likes">
           {blog.likes} likes
           <button onClick={() => onLikeClicked(blog)}>like</button>
         </div>
