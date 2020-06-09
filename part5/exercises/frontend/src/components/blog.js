@@ -26,9 +26,9 @@ const Blog = ({ blog, user, onLikeClicked, onDeleteClicked }) => {
 
   return (
     <div style={blogStyle}>
-      <span>{blog.title}</span>
+      <span className="title">{blog.title}</span>
+      <span className="author"> by {blog.author}</span>
       <Toggleable showLabel="details" hideLabel="hide">
-        <div>by {blog.author}</div>
         <div>
           <a href={blog.url}>{blog.url}</a>
         </div>

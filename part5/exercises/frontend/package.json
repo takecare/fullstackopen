@@ -16,6 +16,7 @@
     "dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "ci-test": "CI=true; react-scripts test --env=jsdom --coverage",
     "eject": "react-scripts eject",
     "lint": "eslint --fix ."
   },
