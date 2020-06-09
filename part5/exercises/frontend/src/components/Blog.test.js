@@ -37,4 +37,18 @@ describe("<Blog />", () => {
     expect(likes).toHaveTextContent(blog.likes);
     expect(url).toHaveTextContent(blog.url);
   });
+
+  test("can like a blog twice", () => {
+    const blog = { title: "title", author: "author", url: "url", likes: 88 };
+    const onLikeClicked = jest.fn();
+
+    const component = render(
+      <Blog blog={blog} onLikeClicked={onLikeClicked} />
+    );
+    const likeButton = component.queryByText("like");
+    fireEvent.click(likeButton);
+    fireEvent.click(likeButton);
+
+    expect(onLikeClicked.mock.calls).toHaveLength(2);
+  });
 });
