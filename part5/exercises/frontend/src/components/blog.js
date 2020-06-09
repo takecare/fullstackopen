@@ -1,5 +1,5 @@
 import React from "react";
-import Toggleable from "./toggleable";
+import Toggleable from "./Toggleable";
 
 const blogStyle = {
   marginBottom: "0.4em",

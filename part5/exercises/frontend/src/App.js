@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import loginService from "./services/login";
 import blogService from "./services/blog";
 import localStorage from "./services/localstorage";
-import Auth from "./components/auth";
-import Blogs from "./components/blogs";
-import NewBlog from "./components/newblog";
-import Notification from "./components/notification";
+import Auth from "./components/Auth";
+import Blogs from "./components/Blogs";
+import NewBlog from "./components/NewBlog";
+import Notification from "./components/Notification";
 import "./App.css";
 
 const blogsSorter = (aBlog, anotherBlog) => {

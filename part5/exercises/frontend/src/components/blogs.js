@@ -1,5 +1,5 @@
 import React from "react";
-import Blog from "./blog";
+import Blog from "./Blog";
 
 const Blogs = ({ blogs, user, onLikeClicked, onDeleteClicked }) => {
   return (

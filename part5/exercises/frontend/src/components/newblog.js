@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import Toggleable from "./toggleable";
+import Toggleable from "./Toggleable";
 import blogService from "../services/blog";
 
 const NewBlog = ({ user, onBlogAdded, onFailToAdd }) => {

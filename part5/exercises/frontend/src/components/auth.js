@@ -1,6 +1,6 @@
 import React from "react";
-import Login from "./login";
-import Logout from "./logout";
+import Login from "./Login";
+import Logout from "./Logout";
 
 const Auth = ({ user, onLogin, onLogout }) => {
   return user ? (
