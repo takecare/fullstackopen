@@ -126,7 +126,6 @@ const login = async () => {
   const loginResponse = await api
     .post("/api/login")
     .send({ username: "testuser", password: "password" });
-  console.log("> logged in: ", loginResponse.body.token);
   return loginResponse.body.token;
 };
 
