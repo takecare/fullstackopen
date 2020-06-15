@@ -1,9 +1,9 @@
-import React from "react";
-import Toggleable from "./Toggleable";
+import React from 'react';
+import Toggleable from './Toggleable';
 
 const blogStyle = {
-  marginBottom: "0.4em",
-  border: "solid",
+  marginBottom: '0.4em',
+  border: 'solid',
   borderWidth: 1,
 };
 

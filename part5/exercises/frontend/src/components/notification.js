@@ -1,15 +1,15 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const notificationStyle = {
-  margin: "0.3em",
-  border: "3px solid green",
-  backgroundColor: "#ffffff",
+  margin: '0.3em',
+  border: '3px solid green',
+  backgroundColor: '#ffffff',
 };
 const errorStyle = {
-  margin: "0.3em",
-  border: "3px solid red",
-  backgroundColor: "#ffeeff",
+  margin: '0.3em',
+  border: '3px solid red',
+  backgroundColor: '#ffeeff',
 };
 
 const Notification = ({ notification }) => {

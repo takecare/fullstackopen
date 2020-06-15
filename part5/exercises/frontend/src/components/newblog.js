@@ -1,11 +1,11 @@
-import React, { useState, useRef } from "react";
-import Toggleable from "./Toggleable";
-import blogService from "../services/blog";
+import React, { useState, useRef } from 'react';
+import Toggleable from './Toggleable';
+import blogService from '../services/blog';
 
 const NewBlog = ({ user, onBlogAdded, onFailToAdd }) => {
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [url, setUrl] = useState("");
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const [url, setUrl] = useState('');
 
   const toggleableRef = useRef();
 
@@ -13,9 +13,9 @@ const NewBlog = ({ user, onBlogAdded, onFailToAdd }) => {
     event.preventDefault();
     try {
       const newBlog = await blogService.create({ title, author, url }, user);
-      setTitle("");
-      setAuthor("");
-      setUrl("");
+      setTitle('');
+      setAuthor('');
+      setUrl('');
       onBlogAdded(newBlog);
       toggleableRef.current.toggle();
     } catch (error) {

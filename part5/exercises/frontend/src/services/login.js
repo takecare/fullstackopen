@@ -1,12 +1,12 @@
-import config from "./config";
+import config from './config';
 const endpoint = `${config.baseUrl}/api/login`;
 
 const login = async (username, password) => {
   const options = {
-    method: "POST",
-    mode: "cors",
+    method: 'POST',
+    mode: 'cors',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ username, password }),
   };

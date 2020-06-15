@@ -1,9 +1,9 @@
-import React from "react";
-import Blog from "./Blog";
+import React from 'react';
+import Blog from './Blog';
 
 const Blogs = ({ blogs, user, onLikeClicked, onDeleteClicked }) => {
   return (
-    <div style={{ margin: "0.8em" }}>
+    <div style={{ margin: '0.8em' }}>
       {blogs.map((blog) => (
         <div key={blog.id}>
           <Blog

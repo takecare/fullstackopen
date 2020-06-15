@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const Login = ({ onLogin }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleUsernameChange = (event) => setUsername(event.target.value);
   const handlePasswordChange = (event) => setPassword(event.target.value);
@@ -11,8 +11,8 @@ const Login = ({ onLogin }) => {
   const handleLoginInternal = (event) => {
     event.preventDefault();
     onLogin(username, password);
-    setUsername("");
-    setPassword("");
+    setUsername('');
+    setPassword('');
   };
 
   return (

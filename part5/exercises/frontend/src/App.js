@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import loginService from "./services/login";
-import blogService from "./services/blog";
-import localStorage from "./services/localstorage";
-import Auth from "./components/Auth";
-import Blogs from "./components/Blogs";
-import NewBlog from "./components/NewBlog";
-import Notification from "./components/Notification";
-import "./App.css";
+import React, { useState, useEffect } from 'react';
+import loginService from './services/login';
+import blogService from './services/blog';
+import localStorage from './services/localstorage';
+import Auth from './components/Auth';
+import Blogs from './components/Blogs';
+import NewBlog from './components/NewBlog';
+import Notification from './components/Notification';
+import './App.css';
 
 const blogsSorter = (aBlog, anotherBlog) => {
   if (aBlog.likes > anotherBlog.likes) {
@@ -25,7 +25,7 @@ function App() {
   const [storedTimeout, saveTimeout] = useState(null);
 
   const loadUserEffect = () => {
-    const user = localStorage.read("user");
+    const user = localStorage.read('user');
     if (user) {
       setUser(user);
     }
@@ -48,17 +48,17 @@ function App() {
   const handleLogin = async (username, password) => {
     try {
       const user = await loginService.login(username, password);
-      localStorage.write("user", user);
+      localStorage.write('user', user);
       setUser(user);
     } catch (error) {
       console.error(error);
-      displayError("Could not login");
+      displayError('Could not login');
     }
   };
 
   const handleLogout = () => {
     setUser(null);
-    localStorage.remove("user");
+    localStorage.remove('user');
   };
 
   const handleBlogAdded = (blog) => {
@@ -81,7 +81,7 @@ function App() {
 
       setBlogs(updatedBlogs);
     } catch (error) {
-      displayError("Could not like blog");
+      displayError('Could not like blog');
     }
   };
 
@@ -90,12 +90,12 @@ function App() {
       await blogService.remove(blog.id, user);
       setBlogs(blogs.filter((item) => blog.id !== item.id));
     } catch (error) {
-      displayError("Could not delete blog");
+      displayError('Could not delete blog');
     }
   };
 
   const handleFailToAdd = () => {
-    displayError("Could not add blog");
+    displayError('Could not add blog');
   };
 
   const displayError = (text) => {

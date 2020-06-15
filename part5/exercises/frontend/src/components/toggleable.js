@@ -1,7 +1,7 @@
-import React, { useState, useImperativeHandle } from "react";
-import PropTypes from "prop-types";
+import React, { useState, useImperativeHandle } from 'react';
+import PropTypes from 'prop-types';
 
-const hiddenStyle = { display: "none" };
+const hiddenStyle = { display: 'none' };
 const visibleStyle = {};
 
 const Toggleable = React.forwardRef(
@@ -13,7 +13,7 @@ const Toggleable = React.forwardRef(
     return (
       <div data-testid="toggleable">
         <button onClick={() => setHiden(!hidden)}>
-          {hidden ? showLabel || "show" : hideLabel || "hide"}
+          {hidden ? showLabel || 'show' : hideLabel || 'hide'}
         </button>
         <div
           data-testid="toggleable-content"
@@ -26,7 +26,7 @@ const Toggleable = React.forwardRef(
   }
 );
 
-Toggleable.displayName = "Toggleable";
+Toggleable.displayName = 'Toggleable';
 
 Toggleable.propTypes = {
   showLabel: PropTypes.string,
