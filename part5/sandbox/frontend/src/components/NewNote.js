@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 const NewNote = ({ handleAddNote }) => {
-  const [note, setNote] = useState("");
+  const [note, setNote] = useState('');
 
   const handleNoteChange = (event) => {
     setNote(event.target.value);
@@ -10,7 +10,7 @@ const NewNote = ({ handleAddNote }) => {
   const handleAddNoteInternal = (event) => {
     event.preventDefault();
     handleAddNote(note);
-    setNote("");
+    setNote('');
   };
 
   return (

@@ -1,9 +1,9 @@
-const router = require("express").Router();
-const User = require("../models/user");
-const bcrypt = require("bcrypt");
+const router = require('express').Router();
+const User = require('../models/user');
+const bcrypt = require('bcrypt');
 
-router.get("/", async (req, res) => {
-  const result = await User.find({}).populate("notes", {
+router.get('/', async (req, res) => {
+  const result = await User.find({}).populate('notes', {
     important: 1,
     content: 1,
     date: 1,
@@ -12,11 +12,11 @@ router.get("/", async (req, res) => {
   res.status(200).send(users);
 });
 
-router.get("/:id", async (req, res) => {
+router.get('/:id', async (req, res) => {
   // TODO
 });
 
-router.post("/", async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
     const passwordHash = await bcrypt.hash(req.body.password, 10);
     const newUser = {
@@ -31,12 +31,12 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete('/:id', async (req, res) => {
   await User.findByIdAndRemove(req.params.id);
   res.status(204).end();
 });
 
-router.put("/:id", async (req, res) => {
+router.put('/:id', async (req, res) => {
   // TODO
 });
 

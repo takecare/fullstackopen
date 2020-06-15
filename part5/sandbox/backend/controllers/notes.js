@@ -1,19 +1,19 @@
-const router = require("express").Router();
-const jwt = require("jsonwebtoken");
-const Note = require("../models/note");
-const User = require("../models/user");
+const router = require('express').Router();
+const jwt = require('jsonwebtoken');
+const Note = require('../models/note');
+const User = require('../models/user');
 
 const getTokenFrom = (request) => {
-  const authorization = request.get("authorization");
-  if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
+  const authorization = request.get('authorization');
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
     return authorization.substring(7);
   }
   return null;
 };
 
-router.get("/", async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
-    const notes = await Note.find({}).populate("user", {
+    const notes = await Note.find({}).populate('user', {
       username: 1,
       name: 1,
     });
@@ -23,7 +23,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:id", async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
   try {
     const note = await Note.findById(req.params.id);
     res.json(note.toJSON());
@@ -32,7 +32,7 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.delete("/:id", async (req, res, next) => {
+router.delete('/:id', async (req, res, next) => {
   try {
     await Note.findByIdAndRemove(req.params.id);
     res.status(204).end();
@@ -41,18 +41,18 @@ router.delete("/:id", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   const token = getTokenFrom(req);
   const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
   if (!token || !decodedToken.id) {
-    return res.status(401).json({ error: "token missing or invalid" });
+    return res.status(401).json({ error: 'token missing or invalid' });
   }
 
   let user;
   try {
     user = await User.findById(decodedToken.id);
     if (!user) {
-      throw { name: "UserNotFound" };
+      throw { name: 'UserNotFound' };
     }
   } catch (error) {
     next(error);
@@ -76,7 +76,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.put("/:id", async (req, res, next) => {
+router.put('/:id', async (req, res, next) => {
   const updateNote = {
     content: req.body.content,
     important: req.body.important,

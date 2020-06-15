@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 if (process.argv.length < 3) {
   console.log(
-    "Please provide the password as an argument: node mongo.js <password>"
+    'Please provide the password as an argument: node mongo.js <password>'
   );
   process.exit(1);
 }
@@ -18,16 +18,16 @@ const noteSchema = new mongoose.Schema({
   important: Boolean,
 });
 
-const Note = mongoose.model("Note", noteSchema);
+const Note = mongoose.model('Note', noteSchema);
 
 const note = new Note({
-  content: "HTML is Easy",
+  content: 'HTML is Easy',
   date: new Date(),
   important: true,
 });
 
 note.save().then((response) => {
-  console.log("note saved!");
+  console.log('note saved!');
   Note.find({}).then((result) => {
     result.forEach((note) => {
       console.log(note);

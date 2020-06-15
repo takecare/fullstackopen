@@ -1,15 +1,15 @@
-import React from "react";
-import "./DevInfo.css";
+import React from 'react';
+import './DevInfo.css';
 
 const DevInfo = () => {
   let envClassName;
   switch (process.env.NODE_ENV) {
-    case "development":
-    case "test":
-      envClassName = "debug";
+    case 'development':
+    case 'test':
+      envClassName = 'debug';
       break;
-    case "production":
-      envClassName = "prod";
+    case 'production':
+      envClassName = 'prod';
       break;
     default:
       break;

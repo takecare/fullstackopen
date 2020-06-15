@@ -1,5 +1,5 @@
-import axios from "axios";
-import { baseUrl } from "./config";
+import axios from 'axios';
+import { baseUrl } from './config';
 const endpoint = `${baseUrl}/api/login`;
 
 const login = async (username, password) => {

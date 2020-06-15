@@ -1,5 +1,5 @@
-const util = require("util");
-const log = require("../utils/logger");
+const util = require('util');
+const log = require('../utils/logger');
 
 const logger = (req, res, next) => {
   log.info(`> ${req.method} ${req.baseUrl} ${req.path}`);

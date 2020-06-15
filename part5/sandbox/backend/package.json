@@ -11,7 +11,7 @@
     "deploy:full": "npm run build:fe && git add . && git commit -m 'build frontend' && npm run deploy",
     "logs:prod": "heroku logs --tail",
     "test": "NODE_ENV=test; jest --verbose --runInBand",
-    "lint": "eslint .",
+    "lint": "eslint --fix .",
     "start:test": "NODE_ENV=test; node --inspect index.js"
   },
   "author": "takecare",
