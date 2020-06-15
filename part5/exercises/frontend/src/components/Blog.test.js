@@ -2,13 +2,16 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 import Blog from "./Blog";
 
+// https://testing-library.com/docs/react-testing-library/cheatsheet
+// https://kentcdodds.com/blog/making-your-ui-tests-resilient-to-change
+
 describe("<Blog />", () => {
   test("renders author and title", () => {
     const blog = { title: "title", author: "author" };
 
     const component = render(<Blog blog={blog} />);
-    const title = component.container.querySelector(".title");
-    const author = component.container.querySelector(".author");
+    const title = component.queryByTestId("title");
+    const author = component.queryByTestId("author");
 
     expect(title).toHaveTextContent(blog.title);
     expect(author).toHaveTextContent(blog.author);
@@ -18,7 +21,7 @@ describe("<Blog />", () => {
     const blog = { title: "title", author: "author", url: "url", likes: 88 };
 
     const component = render(<Blog blog={blog} />);
-    const toggleable = component.container.querySelector(".toggleable-content");
+    const toggleable = component.queryByTestId("toggleable-content");
 
     expect(toggleable).toHaveStyle("display: none");
   });
@@ -27,9 +30,9 @@ describe("<Blog />", () => {
     const blog = { title: "title", author: "author", url: "url", likes: 88 };
 
     const component = render(<Blog blog={blog} />);
-    const toggleable = component.container.querySelector(".toggleable-content");
-    const likes = component.container.querySelector(".likes");
-    const url = component.container.querySelector(".url");
+    const toggleable = component.queryByTestId("toggleable-content");
+    const likes = component.queryByTestId("likes");
+    const url = component.queryByTestId("url");
     const button = component.container.querySelector("button");
     fireEvent.click(button);
 

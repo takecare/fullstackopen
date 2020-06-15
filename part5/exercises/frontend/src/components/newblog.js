@@ -61,7 +61,9 @@ const NewBlog = ({ user, onBlogAdded, onFailToAdd }) => {
             onChange={handleUrlChange}
           />
         </div>
-        <button type="submit">create</button>
+        <button data-testid="create" type="submit">
+          create
+        </button>
       </form>
     </Toggleable>
   );

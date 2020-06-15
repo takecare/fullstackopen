@@ -26,13 +26,13 @@ const Blog = ({ blog, user, onLikeClicked, onDeleteClicked }) => {
 
   return (
     <div style={blogStyle}>
-      <span className="title">{blog.title}</span>
-      <span className="author"> by {blog.author}</span>
+      <span data-testid="title">{blog.title}</span>
+      <span data-testid="author"> by {blog.author}</span>
       <Toggleable showLabel="details" hideLabel="hide">
-        <div className="url">
+        <div data-testid="url">
           <a href={blog.url}>{blog.url}</a>
         </div>
-        <div className="likes">
+        <div data-testid="likes">
           {blog.likes} likes
           <button onClick={() => onLikeClicked(blog)}>like</button>
         </div>
