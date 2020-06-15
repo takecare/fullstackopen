@@ -111,7 +111,7 @@ const App = (props) => {
   const newNoteRef = React.createRef();
   const addNoteComponent = () => {
     return (
-      user != null && (
+      user !== null && (
         <Toggable label="new note" ref={newNoteRef}>
           <NewNote handleAddNote={addNote} />
         </Toggable>
