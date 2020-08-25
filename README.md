@@ -3,7 +3,15 @@
 ### Parts
 
 - [Part 0](https://fullstackopen.com/en/part0/fundamentals_of_web_apps)
-- []()
+- [Part 1](https://fullstackopen.com/en/part1)
+- [Part 2](https://fullstackopen.com/en/part2)
+- [Part 3](https://fullstackopen.com/en/part3)
+- [Part 4](https://fullstackopen.com/en/part4)
+- [Part 5](https://fullstackopen.com/en/part5)
+- Part 6
+- Part 7
+- Part 8
+- Part 9
 
 ### Submission process
 
@@ -13,27 +21,46 @@ You can access the submission portal [here](https://studies.cs.helsinki.fi/stats
 
 #### Repo structure
 
-From [part 0](https://fullstackopen.com/en/part0/fundamentals_of_web_apps#running-application-logic-on-the-browser>):
+Not all parts follow the same structure. In parts 0 to 2 (inclusive) you can find separate apps (sources) for each exercise. From part 3 and onwards you'll see that there is one source for all exercises (cummulative), so all exercises are found in the same sourceset.
+
+In each part you'll find:
+
+- a`sandbox` directory. You can safely ignore this, as it is just a code-along of the part's content;
+- an `exercises` directory, containing all exercises.
 
 ```
-The exercises are submitted via GitHub, and by marking the exercises as done in the submission system.
-
-You can submit all of the exercises into the same repository, or use multiple different repositories. If you submit exercises from different parts into the same repository, name your directories well. If you use a private repository to submit the exercises, add mluukkai as a collaborator to it.
-
-One good way to name the directories in your submission repository is as follows:
-
 part0
 part1
-  courseinfo
-  unicafe
-  anecdotes
+  sandbox
+    ...
+  exercises
+    exercise11
+    exercise12
+    ...
 part2
-  phonebook
-  countries
-
-So, each part has its own directory, which contains a directory for each exercise set (like the unicafe exercises in part 1).
-
-The exercises are submitted one part at a time. When you have submitted the exercises for a part, you can no longer submit any missed exercises for that part.
+  sandbox
+    ...
+  exercises
+    2a
+    2b
+    ...
+part3
+  sandbox
+    backend
+    frontend
+   exercises
+    phonebook
+      backend
+      frontend
+part4
+  sandbox
+    backend
+    frontend
+  exercises
+    blog
+      backend
+      frontend
+...
 ```
 
 #### Additional material
