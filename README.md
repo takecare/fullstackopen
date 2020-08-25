@@ -30,6 +30,8 @@ In each part you'll find:
 
 ```
 part0
+  exercises
+    ...
 part1
   sandbox
     ...
