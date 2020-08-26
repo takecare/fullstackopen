@@ -13,7 +13,13 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  // TODO
+  const id = req.params.id;
+  const result = await User.findById(id).populate('notes', {
+    important: 1,
+    content: 1,
+    date: 1,
+  });
+  res.status(200).send(result.toJSON());
 });
 
 router.post('/', async (req, res, next) => {
