@@ -6,6 +6,7 @@ const User = require('../models/user');
 const api = supertest(app);
 
 beforeEach(async () => {});
+let savedUser;
 
 describe('when there is initially one user in db', () => {
   beforeEach(async () => {
@@ -14,7 +15,13 @@ describe('when there is initially one user in db', () => {
     const passwordHash = await bcrypt.hash('sekret', 10);
     const user = new User({ name: 'root', username: 'root', passwordHash });
 
-    await user.save();
+    savedUser = await user.save();
+  });
+
+  test('can retrieve user by id', async () => {
+    const result = await api.get(`/api/users/${savedUser.id}`).send();
+    const user = result.body;
+    expect(user.name).toBe(savedUser.name);
   });
 
   test('creation succeeds with a fresh username', async () => {
