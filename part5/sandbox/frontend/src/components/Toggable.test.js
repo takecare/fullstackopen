@@ -32,7 +32,7 @@ describe('<Toggable />', () => {
     expect(div).not.toHaveStyle('display: none');
   });
 
-  test('', () => {
+  test('can show and hide the content', () => {
     const button = component.getByText('show');
     fireEvent.click(button);
 

@@ -33,7 +33,7 @@ test('renders content', () => {
   // console.log(prettyDOM(div));
 });
 
-test('', () => {
+test('can toggle importance of note', () => {
   const note = {
     content: 'Component testing is done with react-testing-library',
     important: true,
