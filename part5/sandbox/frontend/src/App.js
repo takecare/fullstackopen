@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import noteService from './services/notes';
 import loginService from './services/login';
+import signupService from './services/signup';
 import Login from './components/Login';
+import NewUser from './components/NewUser';
 import Logout from './components/Logout';
 import Notification from './components/Notification';
 import Note from './components/Note';
@@ -10,7 +12,7 @@ import Toggable from './components/Toggable';
 import DevInfo from './components/devinfo/DevInfo';
 import './App.css';
 
-const App = (props) => {
+const App = () => {
   const MESSAGE_TIMEOUT_MS = 3000;
 
   const [notes, setNotes] = useState([]);
@@ -71,6 +73,15 @@ const App = (props) => {
       .catch((error) => console.error(error));
   };
 
+  const handleSignup = async (name, username, password) => {
+    try {
+      await signupService.signup(name, username, password);
+    } catch (error) {
+      console.error(error);
+      displayNotice('Could not signup');
+    }
+  };
+
   const handleLogin = async (username, password) => {
     try {
       const user = await loginService.login(username, password);
@@ -103,6 +114,7 @@ const App = (props) => {
     user === null ? (
       <Toggable label="login">
         <Login handleLogin={handleLogin} />
+        <NewUser handleNewUser={handleSignup} />
       </Toggable>
     ) : (
       <Logout user={user} handleLogout={handleLogout} />

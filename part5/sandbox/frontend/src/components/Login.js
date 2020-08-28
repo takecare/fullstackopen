@@ -23,6 +23,7 @@ const Login = ({ handleLogin }) => {
     <form onSubmit={handleLoginInternal}>
       <div>
         <input
+          id="username"
           name="Username"
           value={username}
           onChange={handleUsernameChange}
@@ -30,13 +31,16 @@ const Login = ({ handleLogin }) => {
       </div>
       <div>
         <input
+          id="password"
           name="Password"
           value={password}
           type="password"
           onChange={handlePasswordChange}
         />
       </div>
-      <button type="submit">login</button>
+      <button id="login" type="submit">
+        login
+      </button>
     </form>
   );
 };
