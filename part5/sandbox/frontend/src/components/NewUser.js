@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const NewUser = ({ handleNewUser }) => {
-  const [name, setName] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleNewUserInternal = (event) => {
     event.preventDefault();
     handleNewUser(name, username, password);
-    setName('');
-    setUsername('');
-    setPassword('');
+    setName("");
+    setUsername("");
+    setPassword("");
   };
 
   return (

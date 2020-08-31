@@ -1,9 +1,9 @@
-import axios from 'axios';
-import { baseUrl } from './config';
+import axios from "axios";
+import { baseUrl } from "./config";
 const endpoint = `${baseUrl}/api/notes`;
 
 const read = (id) => {
-  const response = axios.get(`${endpoint}/${id ? id : ''}`);
+  const response = axios.get(`${endpoint}/${id ? id : ""}`);
   return new Promise((resolve, reject) =>
     response.then((response) => resolve(response.data)).catch(reject)
   );

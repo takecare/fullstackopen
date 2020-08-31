@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const Login = ({ handleLogin }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -15,8 +15,8 @@ const Login = ({ handleLogin }) => {
   const handleLoginInternal = (event) => {
     event.preventDefault();
     handleLogin(username, password);
-    setUsername('');
-    setPassword('');
+    setUsername("");
+    setPassword("");
   };
 
   return (

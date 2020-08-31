@@ -4,6 +4,7 @@ module.exports = {
     es6: true,
     node: true,
     'jest/globals': true,
+    'cypress/globals': true,
   },
   extends: [
     'eslint:recommended',
@@ -17,11 +18,11 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  plugins: ['react', 'react-hooks', 'jest'],
+  plugins: ['react', 'react-hooks', 'jest', 'cypress'],
   rules: {
     indent: ['error', 2],
     'linebreak-style': ['error', 'unix'],
-    quotes: ['error', 'single'],
+    quotes: ['error', 'double'],
     semi: ['error', 'always'],
     eqeqeq: 'error',
     'no-trailing-spaces': 'error',

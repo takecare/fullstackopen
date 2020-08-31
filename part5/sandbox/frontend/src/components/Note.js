@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
 const Note = ({ note, toggleImportance, remove }) => {
-  const label = note.important ? 'not important' : 'important';
+  const label = note.important ? "not important" : "important";
   const content = note.important ? <b>{note.content}</b> : note.content;
 
   return (
