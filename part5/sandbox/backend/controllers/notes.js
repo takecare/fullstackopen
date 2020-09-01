@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
+const repository = require('../repository/note');
 const Note = require('../models/note');
 const User = require('../models/user');
 
@@ -69,6 +70,7 @@ router.post('/', async (req, res, next) => {
   try {
     const note = await newNote.save();
     user.notes = user.notes.concat(note._id);
+    delete user._id; // need to delete id to guarantee uniquness of user
     await user.save();
     res.status(201).send(note.toJSON());
   } catch (error) {

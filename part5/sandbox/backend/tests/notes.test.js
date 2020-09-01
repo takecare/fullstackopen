@@ -55,7 +55,7 @@ describe('fetching notes', () => {
     expect(note).toEqual(aNote);
   });
 
-  test("fails if note id isn't valid", async () => {
+  test('fails if note id is not valid', async () => {
     const badId = '123';
     await api.get(`/api/notes/${badId}`).expect(400);
   });
@@ -68,7 +68,6 @@ describe('adding notes', () => {
     const body = {
       content: 'a new note',
       important: false,
-      userId: '5ec55090ab97012ba1599fc9',
     };
 
     await api
