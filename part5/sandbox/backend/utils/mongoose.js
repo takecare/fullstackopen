@@ -11,10 +11,10 @@ const connect = () =>
       useCreateIndex: true,
     })
     .then(() => {
-      logger.info('Connected to MongoDB');
+      logger.info(`> Connected to MongoDB: ${config.mongoUrl}`);
     })
     .catch((error) => {
-      logger.error('Error connecting to MongoDB:', error.message);
+      logger.error('> Error connecting to MongoDB:', error.message);
     });
 
 module.exports = {
