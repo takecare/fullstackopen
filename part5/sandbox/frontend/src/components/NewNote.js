@@ -14,7 +14,7 @@ const NewNote = ({ handleAddNote }) => {
   };
 
   return (
-    <div>
+    <div id="newnote">
       <h4>add new note</h4>
       <form onSubmit={handleAddNoteInternal}>
         <input value={note} onChange={handleNoteChange} />

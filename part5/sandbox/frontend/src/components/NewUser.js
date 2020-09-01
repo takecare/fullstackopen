@@ -15,7 +15,7 @@ const NewUser = ({ handleNewUser }) => {
 
   return (
     <form onSubmit={handleNewUserInternal}>
-      <div>
+      <div id="newuser">
         <label htmlFor="name">name</label>
         <input
           id="name"
