@@ -1,6 +1,7 @@
 const router = require('express').Router();
-const User = require('../models/user');
 const bcrypt = require('bcrypt');
+const repository = require('../repository/user')(bcrypt);
+const User = require('../models/user');
 
 router.get('/', async (req, res) => {
   const result = await User.find({}).populate('notes', {
@@ -24,13 +25,11 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const passwordHash = await bcrypt.hash(req.body.password, 10);
-    const newUser = {
-      username: req.body.username,
-      name: req.body.name,
-      passwordHash: passwordHash,
-    };
-    const result = await User.create(newUser);
+    const result = await repository.create(
+      req.body.name,
+      req.body.username,
+      req.body.password
+    );
     res.status(201).send(result.toJSON());
   } catch (error) {
     next(error);
@@ -38,12 +37,13 @@ router.post('/', async (req, res, next) => {
 });
 
 router.delete('/:id', async (req, res) => {
+  // TODO move to repository
   await User.findByIdAndRemove(req.params.id);
   res.status(204).end();
 });
 
 router.put('/:id', async (req, res) => {
-  // TODO
+  // TODO update user
 });
 
 module.exports = router;
