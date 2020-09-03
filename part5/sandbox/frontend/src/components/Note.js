@@ -8,8 +8,12 @@ const Note = ({ note, toggleImportance, remove }) => {
     <li className="note">
       <div>{content}</div>
       <div className="actions">
-        <button onClick={() => toggleImportance(note)}>{label}</button>
-        <button onClick={() => remove(note)}>delete</button>
+        <button id="importanceToggle" onClick={() => toggleImportance(note)}>
+          {label}
+        </button>
+        <button id="delete" onClick={() => remove(note)}>
+          delete
+        </button>
       </div>
     </li>
   );
