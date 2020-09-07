@@ -1,6 +1,6 @@
-const config = require("../utils/config");
 const express = require("express");
 const bcrypt = require("bcrypt");
+const passwordHasher = require("../utils/passwordhasher")(bcrypt);
 const Model = require("../models/user");
 
 const router = express.Router();
@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
     };
   }
 
-  const passwordHash = await bcrypt.hash(body.password, config.saltRounds);
+  const passwordHash = await passwordHasher(body.password);
 
   const result = await Model.create({
     name: body.name,

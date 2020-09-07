@@ -8,9 +8,10 @@ const connect = () =>
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
+      useCreateIndex: true,
     })
-    .then(() => logger.info("MongoDB connected."))
-    .catch((error) => logger.error("MongoDB failed to connect: ", error));
+    .then(() => logger.info("> MongoDB connected: ", config.mongoUri))
+    .catch((error) => logger.error("> MongoDB failed to connect: ", error));
 
 module.exports = {
   connect,

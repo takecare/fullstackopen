@@ -16,6 +16,7 @@ const jwtSecret = process.env.JWT_SECRET;
 const port = process.env.PORT;
 
 module.exports = {
+  isTestEnv,
   mongoUri: uri,
   saltRounds,
   jwtSecret,
