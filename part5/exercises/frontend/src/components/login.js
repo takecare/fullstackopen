@@ -16,15 +16,17 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <form onSubmit={handleLoginInternal}>
+    <form id="login" onSubmit={handleLoginInternal}>
       <input
         name="username"
+        id="username"
         value={username}
         type="text"
         onChange={handleUsernameChange}
       />
       <input
         name="password"
+        id="password"
         value={password}
         type="password"
         onChange={handlePasswordChange}
