@@ -18,7 +18,11 @@ const Notification = ({ notification }) => {
   }
   const { message, isError } = notification;
   const style = isError ? errorStyle : notificationStyle;
-  return <div style={style}>{message}</div>;
+  return (
+    <div id="notification" style={style}>
+      {message}
+    </div>
+  );
 };
 
 Notification.propTypes = {
