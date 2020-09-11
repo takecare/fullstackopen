@@ -28,7 +28,7 @@ const NewBlog = ({ user, onBlogAdded, onFailToAdd }) => {
   const handleUrlChange = (event) => setUrl(event.target.value);
 
   const component = (
-    <Toggleable showLabel="new blog" ref={toggleableRef}>
+    <Toggleable data-testid="newblog" showLabel="new blog" ref={toggleableRef}>
       <h3>add new blog</h3>
       <form onSubmit={addBlog}>
         <div>

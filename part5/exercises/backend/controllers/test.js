@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const passwordHasher = require("../utils/passwordhasher")(require("bcrypt"));
+const hashPassword = require("../utils/passwordhasher")(require("bcrypt"));
 const User = require("../models/user");
 const Blog = require("../models/blog");
 
@@ -16,10 +16,13 @@ router.post("/clear", async (req, res, next) => {
 
 router.post("/populate", async (req, res, next) => {
   try {
+    const username = req.body.username || "test";
+    const password = req.body.password || "password";
+
     const user = await User.create({
       name: "testinho",
-      username: "test",
-      passwordHash: await passwordHasher("password"),
+      username: username,
+      passwordHash: await hashPassword(password),
       blogs: [],
     });
 

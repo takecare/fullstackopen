@@ -5,14 +5,16 @@ const hiddenStyle = { display: 'none' };
 const visibleStyle = {};
 
 const Toggleable = React.forwardRef(
-  ({ showLabel, hideLabel, children }, ref) => {
+  ({ 'data-testid': dataTestId, showLabel, hideLabel, children }, ref) => {
     const [hidden, setHiden] = useState(true);
+
     useImperativeHandle(ref, () => ({ toggle: () => setHiden(!hidden) }), [
       hidden,
     ]);
+
     return (
-      <div data-testid="toggleable">
-        <button onClick={() => setHiden(!hidden)}>
+      <div data-testid={dataTestId}>
+        <button data-testid="toggle" onClick={() => setHiden(!hidden)}>
           {hidden ? showLabel || 'show' : hideLabel || 'hide'}
         </button>
         <div
@@ -29,6 +31,7 @@ const Toggleable = React.forwardRef(
 Toggleable.displayName = 'Toggleable';
 
 Toggleable.propTypes = {
+  'data-testid': PropTypes.string,
   showLabel: PropTypes.string,
   hideLabel: PropTypes.string,
 };

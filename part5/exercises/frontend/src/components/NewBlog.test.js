@@ -4,6 +4,8 @@ import NewBlog from './NewBlog';
 
 // https://jestjs.io/docs/en/mock-functions
 // https://kentcdodds.com/blog/fix-the-not-wrapped-in-act-warning
+// https://kentcdodds.com/blog/making-your-ui-tests-resilient-to-change
+// https://reactjs.org/docs/testing-recipes.html
 
 const mockFetch = async (endpoint, options) => {
   if (endpoint.endsWith('/api/blogs')) {
