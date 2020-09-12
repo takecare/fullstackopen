@@ -28,13 +28,19 @@ const Blog = ({ blog, user, onLikeClicked, onDeleteClicked }) => {
     <div style={blogStyle}>
       <span data-testid="title">{blog.title}</span>
       <span data-testid="author"> by {blog.author}</span>
-      <Toggleable showLabel="details" hideLabel="hide">
+      <Toggleable
+        data-testid="blog-details"
+        showLabel="details"
+        hideLabel="hide"
+      >
         <div data-testid="url">
           <a href={blog.url}>{blog.url}</a>
         </div>
         <div data-testid="likes">
           {blog.likes} likes
-          <button onClick={() => onLikeClicked(blog)}>like</button>
+          <button data-testid="like" onClick={() => onLikeClicked(blog)}>
+            like
+          </button>
         </div>
         {user && user.username === blog.user.username ? deleteButton : <></>}
       </Toggleable>

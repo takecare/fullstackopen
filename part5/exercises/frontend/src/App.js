@@ -76,9 +76,6 @@ function App() {
       const updatedBlogs = blogs
         .map((blog) => (blog.id === updatedBlog.id ? updatedBlog : blog))
         .sort(blogsSorter);
-
-      console.log(updatedBlogs);
-
       setBlogs(updatedBlogs);
     } catch (error) {
       displayError('Could not like blog');
