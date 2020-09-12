@@ -16,7 +16,7 @@ const Blog = ({ blog, user, onLikeClicked, onDeleteClicked }) => {
   };
 
   const deleteButton = (
-    <div>
+    <div data-testid="delete">
       <button onClick={() => onDeleteClickedInternal(blog)}>delete</button>
     </div>
   );

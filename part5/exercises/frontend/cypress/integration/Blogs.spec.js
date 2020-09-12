@@ -3,6 +3,7 @@ const app = 'http://localhost:3001';
 
 // https://docs.cypress.io/guides/references/best-practices.html#Organizing-Tests-Logging-In-Controlling-State
 // https://docs.cypress.io/guides/references/best-practices.html#Using-after-or-afterEach-hooks
+// https://docs.cypress.io/api/events/catalog-of-events.html#Window-Confirm
 
 Cypress.Commands.add('containsIgnoreCase', (content) => {
   cy.contains(content, { matchCase: false });
@@ -86,7 +87,7 @@ describe('when logged in', function () {
   });
 
   // these 2 testsf fail if they're in the reverse order. something is not
-  //right with cypress
+  // right with cypress
 
   it('can "like" an entry', function () {
     cy.testId('blog-details').within(() => {
@@ -97,7 +98,21 @@ describe('when logged in', function () {
     });
   });
 
+  it('can delete an entry', function () {
+    cy.testId('blog-details').within(() => {
+      cy.testId('toggle').click();
+      cy.testId('delete').within(() => {
+        cy.get('button').click();
+      });
+    });
+  });
+
   it('can create a new entry', function () {
+    cy.on('window:confirm', (content) => {
+      expect(content).to.containsIgnoreCase('remove blog');
+      return true; // click "yes"
+    });
+
     cy.testId('newblog').within(() => {
       cy.testId('toggle').click();
       cy.get('form').within(() => {
