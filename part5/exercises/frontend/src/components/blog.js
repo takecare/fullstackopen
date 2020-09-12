@@ -25,7 +25,7 @@ const Blog = ({ blog, user, onLikeClicked, onDeleteClicked }) => {
   // the way down here
 
   return (
-    <div style={blogStyle}>
+    <div data-testid="blog" style={blogStyle}>
       <span data-testid="title">{blog.title}</span>
       <span data-testid="author"> by {blog.author}</span>
       <Toggleable

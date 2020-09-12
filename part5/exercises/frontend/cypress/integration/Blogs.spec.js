@@ -61,10 +61,6 @@ describe('front page', function () {
     });
   });
 
-  // it('poster of an entry can delete it', function () {
-  //   // 5.21
-  // });
-
   // it('entries are ordered by amount of "likes"', function () {
   //   // 5.22
   // });
@@ -74,6 +70,10 @@ describe('when logged in', function () {
   beforeEach(function () {
     cy.request('POST', `${api}/test/clear`);
     cy.request('POST', `${api}/test/populate`);
+    cy.request('POST', `${api}/test/populate`, {
+      username: 'person',
+      password: 'person',
+    });
     cy.clearLocalStorage();
     cy.visit(app);
   });
@@ -86,33 +86,45 @@ describe('when logged in', function () {
     });
   });
 
-  // these 2 testsf fail if they're in the reverse order. something is not
+  // these next 2 tests fail if they're in the reverse order. something is not
   // right with cypress
-
   it('can "like" an entry', function () {
-    cy.testId('blog-details').within(() => {
-      cy.testId('toggle').click();
-      cy.testId('likes').within(() => {
-        cy.get('button').click();
+    cy.testId('blog-details')
+      .first()
+      .within(() => {
+        cy.testId('toggle').click();
+        cy.testId('likes').within(() => {
+          cy.get('button').click();
+        });
       });
-    });
   });
 
   it('can delete an entry', function () {
-    cy.testId('blog-details').within(() => {
-      cy.testId('toggle').click();
-      cy.testId('delete').within(() => {
-        cy.get('button').click();
-      });
-    });
-  });
-
-  it('can create a new entry', function () {
     cy.on('window:confirm', (content) => {
-      expect(content).to.containsIgnoreCase('remove blog');
+      expect(content).to.contain('Remove blog');
       return true; // click "yes"
     });
 
+    cy.testId('blog-details')
+      .first()
+      .within(() => {
+        cy.testId('toggle').click();
+        cy.testId('delete').within(() => {
+          cy.get('button').click();
+        });
+      });
+  });
+
+  it('cannot delete an entry that is not ours', function () {
+    cy.testId('blog-details')
+      .last()
+      .within(() => {
+        cy.testId('toggle').click();
+        cy.testId('delete').should('not.exist');
+      });
+  });
+
+  it('can create a new entry', function () {
     cy.testId('newblog').within(() => {
       cy.testId('toggle').click();
       cy.get('form').within(() => {
@@ -122,5 +134,7 @@ describe('when logged in', function () {
         cy.testId('create').click();
       });
     });
+
+    cy.get('#notification').should('be.visible').contains('Added');
   });
 });

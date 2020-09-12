@@ -20,16 +20,16 @@ router.post("/populate", async (req, res, next) => {
     const password = req.body.password || "password";
 
     const user = await User.create({
-      name: "testinho",
+      name: `Mx ${username}`,
       username: username,
       passwordHash: await hashPassword(password),
       blogs: [],
     });
 
     const blog = await Blog.create({
-      title: "title",
-      author: "author",
-      url: "https://www.blog.pt",
+      title: `${username}'s post`,
+      author: username,
+      url: `https://www.blog.pt/${username}/1`,
       user: user._id,
     });
 
