@@ -37,7 +37,7 @@ const Blog = ({ blog, user, onLikeClicked, onDeleteClicked }) => {
           <a href={blog.url}>{blog.url}</a>
         </div>
         <div data-testid="likes">
-          {blog.likes} likes
+          <span data-testid="count">{blog.likes} likes</span>
           <button data-testid="like" onClick={() => onLikeClicked(blog)}>
             like
           </button>

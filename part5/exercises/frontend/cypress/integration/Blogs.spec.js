@@ -1,9 +1,12 @@
+const { default: blog } = require('../../src/services/blog');
+
 const api = 'http://localhost:3000/api';
 const app = 'http://localhost:3001';
 
 // https://docs.cypress.io/guides/references/best-practices.html#Organizing-Tests-Logging-In-Controlling-State
 // https://docs.cypress.io/guides/references/best-practices.html#Using-after-or-afterEach-hooks
 // https://docs.cypress.io/api/events/catalog-of-events.html#Window-Confirm
+// https://docs.cypress.io/guides/references/assertions.html#BDD-Assertions
 
 Cypress.Commands.add('containsIgnoreCase', (content) => {
   cy.contains(content, { matchCase: false });
@@ -26,6 +29,10 @@ describe('front page', function () {
   beforeEach(function () {
     cy.request('POST', `${api}/test/clear`);
     cy.request('POST', `${api}/test/populate`);
+    cy.request('POST', `${api}/test/populate`, {
+      username: 'person',
+      password: 'person',
+    });
     cy.clearLocalStorage();
     cy.visit(app);
   });
@@ -60,10 +67,6 @@ describe('front page', function () {
       });
     });
   });
-
-  // it('entries are ordered by amount of "likes"', function () {
-  //   // 5.22
-  // });
 });
 
 describe('when logged in', function () {
@@ -136,5 +139,31 @@ describe('when logged in', function () {
     });
 
     cy.get('#notification').should('be.visible').contains('Added');
+  });
+
+  it('entries are ordered by number of likes', function () {
+    cy.testId('blog-details')
+      .first()
+      .within(() => {
+        cy.testId('toggle').click();
+        cy.testId('likes').within(() => {
+          cy.get('button').click();
+        });
+      });
+
+    let previous;
+    cy.testId('count').each(($count) => {
+      cy.wrap($count)
+        .invoke('text')
+        .then((text) => {
+          const results = text.match(/([\d]+) likes/);
+          const numOfLikes = results[1];
+          if (!previous) {
+            previous = numOfLikes;
+          }
+          expect(previous >= numOfLikes).to.be.true;
+          previous = numOfLikes;
+        });
+    });
   });
 });
