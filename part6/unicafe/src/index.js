@@ -1,17 +1,33 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import { createStore } from "redux";
+import reducer from "./reducer";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const store = createStore(reducer);
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const App = () => {
+  const vote = (action) => store.dispatch({ type: action });
+  const good = () => vote("GOOD");
+  const ok = () => vote("OK");
+  const bad = () => vote("BAD");
+  const reset = () => vote("ZERO");
+
+  return (
+    <div>
+      <button onClick={good}>good</button>
+      <button onClick={ok}>neutral</button>
+      <button onClick={bad}>bad</button>
+      <button onClick={reset}>reset stats</button>
+      <div>good: {store.getState().good}</div>
+      <div>neutral: {store.getState().ok}</div>
+      <div>bad: {store.getState().bad}</div>
+    </div>
+  );
+};
+
+const renderApp = () => {
+  ReactDOM.render(<App />, document.getElementById("root"));
+};
+
+renderApp();
+store.subscribe(renderApp);
