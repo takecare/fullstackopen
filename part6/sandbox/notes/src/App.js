@@ -22,7 +22,8 @@ const Note = ({ note }) => {
   );
 };
 
-const Notes = ({ notes }) => {
+const Notes = () => {
+  const notes = useSelector((state) => state);
   return (
     <ul>
       {notes.map((note) => (
@@ -33,12 +34,10 @@ const Notes = ({ notes }) => {
 };
 
 function App() {
-  const notes = useSelector((state) => state);
-
   return (
     <div>
       <NewNote />
-      <Notes notes={notes} />
+      <Notes />
     </div>
   );
 }
