@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   createVoteAction,
@@ -35,17 +35,21 @@ const Anecdotes = () => {
 
 const NewAnecdote = () => {
   const dispatch = useDispatch();
+  const [content, setContent] = useState();
+
   const addAnecdote = (event) => {
     event.preventDefault();
-    const content = event.target.anecdote.value;
-    event.target.anecdote.value = "";
+    setContent("");
     dispatch(createAnecdoteAction(content));
   };
+
+  const handleInputChange = (event) => setContent(event.target.value);
+
   return (
     <>
       <h2>create new</h2>
       <form onSubmit={addAnecdote}>
-        <input name="anecdote" />
+        <input name="anecdote" value={content} onChange={handleInputChange} />
         <button>create</button>
       </form>
     </>
