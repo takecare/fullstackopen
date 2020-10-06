@@ -18,6 +18,10 @@ const asObject = (anecdote) => ({
 const initialState = anecdotesAtStart.map(asObject);
 
 export const createVoteAction = (id) => ({ type: "VOTE", data: { id } });
+export const createAnecdoteAction = (content) => ({
+  type: "NEW",
+  data: { content },
+});
 
 const reducer = (state = initialState, action) => {
   console.log("state now: ", state);
@@ -30,6 +34,13 @@ const reducer = (state = initialState, action) => {
           ? { ...anecdote, votes: anecdote.votes + 1 }
           : anecdote
       );
+    case "NEW":
+      const note = {
+        content: action.data.content,
+        id: getId(),
+        votes: 0,
+      };
+      return state.concat(note);
     default:
       break;
   }
