@@ -26,9 +26,11 @@ const Anecdotes = () => {
   return (
     <div>
       <h2>Anecdotes</h2>
-      {anecdotes.map((anecdote) => (
-        <Anecdote key={anecdote.id} anecdote={anecdote} />
-      ))}
+      {anecdotes
+        .sort((first, second) => (first.votes >= second.votes ? -1 : 1))
+        .map((anecdote) => (
+          <Anecdote key={anecdote.id} anecdote={anecdote} />
+        ))}
     </div>
   );
 };
