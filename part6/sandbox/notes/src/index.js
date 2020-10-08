@@ -1,20 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { createStore } from "redux";
+import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
 import App from "./App";
 import noteReducer from "./reducers/NoteReducer";
+import filterReducer from "./reducers/FilterReducer";
 
-const store = createStore(noteReducer);
+// https://github.com/zalmoxisus/redux-devtools-extension#usage
+const enableReduxDevTools = () =>
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
 
-store.dispatch({
-  type: "NEW_NOTE",
-  data: {
-    content: "the app state is in redux store",
-    important: true,
-    id: 1,
-  },
+const appReducer = combineReducers({
+  notes: noteReducer,
+  filter: filterReducer,
 });
+const store = createStore(appReducer, enableReduxDevTools());
 
 ReactDOM.render(
   <React.StrictMode>
