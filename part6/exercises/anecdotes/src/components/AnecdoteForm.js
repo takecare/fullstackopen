@@ -1,15 +1,23 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createAnecdoteAction } from "../reducers/AnecdoteReducer";
+import { createDisplayMessageAction } from "../reducers/NotificationReducer";
+import { createHideMessageAction } from "../reducers/NotificationReducer";
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch();
-  const [content, setContent] = useState();
+  const [content, setContent] = useState("");
 
   const addAnecdote = (event) => {
     event.preventDefault();
-    setContent("");
     dispatch(createAnecdoteAction(content));
+    dispatch(createMessageAction("Anecdote added."));
+    setContent("");
+  };
+
+  const createMessageAction = (message) => {
+    const timeout = setTimeout(() => dispatch(createHideMessageAction()), 5000);
+    return createDisplayMessageAction(message, timeout);
   };
 
   const handleInputChange = (event) => setContent(event.target.value);

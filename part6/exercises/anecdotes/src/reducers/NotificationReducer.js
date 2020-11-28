@@ -1,17 +1,32 @@
-export const createDisplayMessageAction = (message) => ({
+export const createDisplayMessageAction = (message, timeout) => ({
   type: "MESSAGE",
-  message,
+  data: { message, timeout },
 });
-export const createHideMessageAction = () => ({ type: "HIDE", message: "" });
 
-const initialState = "";
+export const createHideMessageAction = () => ({
+  type: "HIDE",
+  data: { message: "", timeout: null },
+});
+
+const initialState = {
+  message: "",
+};
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "MESSAGE":
-      return action.data.message;
+      return {
+        ...state,
+        timeout: action.data.timeout,
+        message: action.data.message,
+      };
     case "HIDE":
-      return "";
+      clearTimeout(state.timeout);
+      return {
+        ...state,
+        timeout: null,
+        message: "",
+      };
     default:
       return state;
   }
