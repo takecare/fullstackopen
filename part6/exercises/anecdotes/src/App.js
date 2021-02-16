@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import anecdotesService from "./services/AnecdotesService";
-import { createLoadAction } from "./reducers/AnecdoteReducer";
+import { loadAction } from "./reducers/AnecdoteReducer";
 
 import AnecdoteList from "./components/AnecdoteList";
 import AnecdoteForm from "./components/AnecdoteForm";
@@ -12,13 +11,7 @@ import FilterForm from "./components/FilterForm";
 const App = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const anecdotes = await anecdotesService.getAll();
-      dispatch(createLoadAction(anecdotes));
-    };
-    fetchData();
-  }, [dispatch]);
+  useEffect(() => dispatch(loadAction()), [dispatch]);
 
   return (
     <div>

@@ -36,7 +36,28 @@ const addAnecdote = async (content) => {
   return response.json();
 };
 
+const updateAnecdote = async (anecdote) => {
+  //const anecdote = { content, votes: 0, important: false };
+  const url = `${endpoint}/${anecdote.id}`;
+  const options = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(anecdote),
+  };
+  const response = await fetch(url, options);
+
+  if (!response.ok) {
+    const body = await response.json();
+    throw Error(`${response.status} ${body.error}`);
+  }
+
+  return response.json();
+};
+
 export default {
   getAll,
   addAnecdote,
+  updateAnecdote,
 };

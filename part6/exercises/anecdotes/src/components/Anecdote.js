@@ -1,11 +1,11 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { createVoteAction } from "../reducers/AnecdoteReducer";
+import { voteAction } from "../reducers/AnecdoteReducer";
 
 const Anecdote = ({ anecdote }) => {
   const dispatch = useDispatch();
   const vote = (id) => {
-    dispatch(createVoteAction(id));
+    dispatch(voteAction(id));
   };
   return (
     <>
@@ -13,7 +13,7 @@ const Anecdote = ({ anecdote }) => {
         {anecdote.content} |{" "}
         <span>
           {anecdote.votes} votes.{" "}
-          <button onClick={() => vote(anecdote.id)}>vote</button>
+          <button onClick={() => vote(anecdote)}>vote</button>
         </span>
       </div>
     </>
