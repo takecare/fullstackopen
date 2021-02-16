@@ -9,10 +9,12 @@ const Anecdote = ({ anecdote }) => {
   };
   return (
     <>
-      <div>{anecdote.content}</div>
       <div>
-        has {anecdote.votes}
-        <button onClick={() => vote(anecdote.id)}>vote</button>
+        {anecdote.content} |{" "}
+        <span>
+          {anecdote.votes} votes.{" "}
+          <button onClick={() => vote(anecdote.id)}>vote</button>
+        </span>
       </div>
     </>
   );

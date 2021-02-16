@@ -17,6 +17,13 @@ const asObject = (anecdote) => ({
 
 const initialState = anecdotesAtStart.map(asObject);
 
+// state is an array of anectode objects
+
+export const createLoadAction = (anecdotes) => ({
+  type: "LOAD",
+  data: { anecdotes },
+});
+
 export const createVoteAction = (id) => ({ type: "VOTE", data: { id } });
 
 export const createAnecdoteAction = (content) => ({
@@ -24,8 +31,10 @@ export const createAnecdoteAction = (content) => ({
   data: { content },
 });
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = [], action) => {
   switch (action.type) {
+    case "LOAD":
+      return [].concat(action.data.anecdotes);
     case "VOTE":
       return state.map((anecdote) =>
         anecdote.id === action.data.id
