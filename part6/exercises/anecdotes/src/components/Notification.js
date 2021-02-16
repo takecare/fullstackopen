@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 // https://fb.me/react-controlled-components
 const Notification = () => {
   const message = useSelector((state) => state.notification.message);
+
   const style = {
     border: "solid",
     padding: 10,

@@ -10,6 +10,7 @@ export const createHideMessageAction = () => ({
 
 const initialState = {
   message: "",
+  timeout: null,
 };
 
 const reducer = (state = initialState, action) => {

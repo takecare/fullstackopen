@@ -3,20 +3,24 @@ import { useDispatch } from "react-redux";
 import { createAnecdoteAction } from "../reducers/AnecdoteReducer";
 import { createDisplayMessageAction } from "../reducers/NotificationReducer";
 import { createHideMessageAction } from "../reducers/NotificationReducer";
+import anecdotesService from "../services/AnecdotesService";
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch();
   const [content, setContent] = useState("");
 
-  const addAnecdote = (event) => {
+  const addAnecdote = async (event) => {
     event.preventDefault();
-    dispatch(createAnecdoteAction(content));
+
+    const addedAnecdote = await anecdotesService.addAnecdote(content);
+    dispatch(createAnecdoteAction(addedAnecdote.content));
     dispatch(createMessageAction("Anecdote added."));
+
     setContent("");
   };
 
   const createMessageAction = (message) => {
-    const timeout = setTimeout(() => dispatch(createHideMessageAction()), 5000);
+    const timeout = setTimeout(() => dispatch(createHideMessageAction()), 4000);
     return createDisplayMessageAction(message, timeout);
   };
 

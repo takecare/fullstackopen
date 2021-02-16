@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import anecdotesService from "./services/AnecdotesService";
@@ -11,7 +11,6 @@ import FilterForm from "./components/FilterForm";
 
 const App = () => {
   const dispatch = useDispatch();
-  const [anecdotes, setAnecdotes] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,7 +18,7 @@ const App = () => {
       dispatch(createLoadAction(anecdotes));
     };
     fetchData();
-  });
+  }, [dispatch]);
 
   return (
     <div>
